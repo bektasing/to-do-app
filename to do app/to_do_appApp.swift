@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct to_do_appApp: App {
+    @StateObject private var themeManager = ThemeManager.shared
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(themeManager)
         }
     }
 }

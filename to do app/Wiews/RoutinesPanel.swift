@@ -8,9 +8,11 @@ import SwiftUI
 
 struct RoutinesPanel: View {
     @ObservedObject var viewModel: TodoViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var newRoutineTitle = ""
     @State private var isResetting = false
     @State private var isWaitingForConfirmation = false
+    @State private var showConfetti = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -75,7 +77,7 @@ struct RoutinesPanel: View {
                 }
                 .padding()
             }
-            .background(Color(NSColor.windowBackgroundColor).opacity(0.5))
+            .background(Color.adaptiveWindowBackground)
             
             Divider()
             
@@ -92,7 +94,7 @@ struct RoutinesPanel: View {
                 .disabled(newRoutineTitle.isEmpty)
             }
             .padding()
-            .background(Color(NSColor.windowBackgroundColor).opacity(0.3))
+            .background(Color.adaptiveWindowBackground)
             
             // Routines List veya Empty State (Scrollable)
             if viewModel.routines.isEmpty {
@@ -119,7 +121,28 @@ struct RoutinesPanel: View {
                 .listStyle(.plain)
             }
         }
-        .background(Color(NSColor.windowBackgroundColor).opacity(0.3))
+        .background(Color.adaptiveWindowBackground)
+        .overlay(
+            // Confetti overlay - StatsCard'dan başlayacak şekilde
+            Group {
+                if showConfetti {
+                    VStack {
+                        Spacer()
+                        ConfettiView()
+                            .allowsHitTesting(false)
+                            .frame(height: 200)
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                                    showConfetti = false
+                                }
+                            }
+                    }
+                }
+            }
+        )
+        .onReceive(NotificationCenter.default.publisher(for: .showConfetti)) { _ in
+            showConfetti = true
+        }
     }
     
     private func addRoutine() {
@@ -132,6 +155,7 @@ struct RoutinesPanel: View {
 struct RoutineCard: View {
     let routineId: UUID
     @ObservedObject var viewModel: TodoViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var showingDeleteAlert = false
     
     // Real-time routine data
@@ -168,7 +192,13 @@ struct RoutineCard: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .fill(Color(NSColor.controlBackgroundColor))
+                .fill(Color.adaptiveCardBackground)
+                .shadow(
+                    color: themeManager.isLightMode ? Color.black.opacity(0.1) : Color.clear,
+                    radius: themeManager.isLightMode ? 4 : 0,
+                    x: 0,
+                    y: themeManager.isLightMode ? 2 : 0
+                )
         )
         .confirmationDialog(
             "Bu rutini silmek istediğinizden emin misiniz?",
@@ -210,6 +240,7 @@ struct EmptyRoutinesView: View {
 
 struct StatsCard: View {
     @ObservedObject var viewModel: TodoViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
         VStack(spacing: 12) {
@@ -251,7 +282,13 @@ struct StatsCard: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color(NSColor.controlBackgroundColor))
+                .fill(Color.adaptiveCardBackground)
+                .shadow(
+                    color: themeManager.isLightMode ? Color.black.opacity(0.1) : Color.clear,
+                    radius: themeManager.isLightMode ? 4 : 0,
+                    x: 0,
+                    y: themeManager.isLightMode ? 2 : 0
+                )
         )
     }
 }

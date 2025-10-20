@@ -11,48 +11,73 @@ import AppKit
 class SoundManager: NSObject {
     static let shared = SoundManager()
     
-    private var soundQueue: [NSSound] = []
+    private var audioPlayer: AVAudioPlayer?
     private var isPlaying = false
     
     private override init() {
         super.init()
     }
     
-    private func playSound(named name: String) {
+    private func playSound(named name: String, volume: Float = 0.7) {
+        // Önceki sesi durdur
+        stopAllSounds()
+        
+        // Sistem seslerini kullan
         guard let sound = NSSound(named: name) else { return }
         
-        // Önceki sesi durdur ve yeni sesi çal
-        stopAllSounds()
+        // Ses seviyesini ayarla
+        sound.volume = volume
+        
+        // Smooth playback için delegate kullan
+        sound.delegate = self
         sound.play()
+        isPlaying = true
     }
     
     private func stopAllSounds() {
-        // Tüm sesleri durdur - NSSound'ta stopAll() yok, queue'yu temizle
-        soundQueue.removeAll()
+        audioPlayer?.stop()
+        audioPlayer = nil
         isPlaying = false
     }
     
     func playTaskCompleteSound() {
-        playSound(named: "Glass")
+        // Daha iyi tamamlama sesi
+        playSound(named: "Glass", volume: 0.8)
     }
     
     func playTaskAddSound() {
-        playSound(named: "Pop")
+        playSound(named: "Pop", volume: 0.6)
     }
     
     func playTaskDeleteSound() {
-        playSound(named: "Funk")
+        playSound(named: "Funk", volume: 0.5)
     }
     
     func playSuccessSound() {
-        playSound(named: "Hero")
+        // Daha etkileyici başarı sesi
+        playSound(named: "Hero", volume: 0.9)
+    }
+    
+    func playRoutineCompleteSound() {
+        // Rutin tamamlama için özel ses
+        playSound(named: "Ping", volume: 0.7)
+    }
+    
+    func playAllRoutinesCompleteSound() {
+        // Tüm rutinler tamamlandığında özel ses
+        playSound(named: "Hero", volume: 1.0)
+    }
+    
+    // Haptic feedback for checkboxes
+    func playHapticFeedback() {
+        NSHapticFeedbackManager.defaultPerformer.perform(.generic, performanceTime: .default)
     }
 }
 
 // Delegate extension
-// MARK: - NSSoundDelegate (Artık gerekli değil)
-// extension SoundManager: NSSoundDelegate {
-//     func sound(_ sound: NSSound, didFinishPlaying flag: Bool) {
-//         // Artık queue sistemi kullanmıyoruz
-//     }
-// }
+// MARK: - NSSoundDelegate
+extension SoundManager: NSSoundDelegate {
+    func sound(_ sound: NSSound, didFinishPlaying flag: Bool) {
+        isPlaying = false
+    }
+}

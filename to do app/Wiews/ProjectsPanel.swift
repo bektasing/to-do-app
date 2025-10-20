@@ -9,6 +9,7 @@ import UniformTypeIdentifiers
 
 struct ProjectsPanel: View {
     @ObservedObject var viewModel: TodoViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var newProjectTitle = ""
     @State private var showingAddSheet = false
     @State private var showingTemplateSheet = false
@@ -31,7 +32,7 @@ struct ProjectsPanel: View {
                 }
                 .padding()
             }
-            .background(Color(NSColor.controlBackgroundColor))
+            .background(Color.adaptiveCardBackground)
             
             Divider()
             
@@ -64,7 +65,7 @@ struct ProjectsPanel: View {
                 .buttonStyle(.plain)
             }
             .padding()
-            .background(Color(NSColor.windowBackgroundColor))
+            .background(Color.adaptiveWindowBackground)
             
             // Projects List veya Empty State (Scrollable)
             if viewModel.projects.isEmpty {
@@ -98,6 +99,7 @@ struct ProjectsPanel: View {
 struct ProjectCard: View {
     let projectId: UUID
     @ObservedObject var viewModel: TodoViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var showingEditSheet = false
     @State private var showingDeleteAlert = false
     @State private var isExpanded = false
@@ -338,7 +340,13 @@ struct ProjectCard: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .fill(Color(NSColor.controlBackgroundColor))
+                .fill(Color.adaptiveCardBackground)
+                .shadow(
+                    color: themeManager.isLightMode ? Color.black.opacity(0.1) : Color.clear,
+                    radius: themeManager.isLightMode ? 4 : 0,
+                    x: 0,
+                    y: themeManager.isLightMode ? 2 : 0
+                )
         )
         .overlay(
             Rectangle()
@@ -1226,7 +1234,7 @@ struct TemplateSheet: View {
                             .foregroundColor(.secondary)
                         }
                         .padding()
-                        .background(Color(NSColor.controlBackgroundColor))
+                        .background(Color.adaptiveCardBackground)
                         .cornerRadius(8)
                     }
                 }
@@ -1265,7 +1273,7 @@ struct TemplateSheet: View {
                 }
             }
             .padding()
-            .background(Color(NSColor.controlBackgroundColor).opacity(0.5))
+            .background(Color.adaptiveCardBackground.opacity(0.5))
             .cornerRadius(8)
             
             // Close Button

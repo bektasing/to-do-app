@@ -8,6 +8,11 @@ import Foundation
 import SwiftUI
 import Combine
 
+// Notification names
+extension Notification.Name {
+    static let showConfetti = Notification.Name("showConfetti")
+}
+
 class TodoViewModel: ObservableObject {
     @Published var projects: [Project] = [] {
         didSet {
@@ -27,6 +32,12 @@ class TodoViewModel: ObservableObject {
         }
     }
     
+    @Published var soundEnabled: Bool = true {
+        didSet {
+            UserDefaults.standard.set(soundEnabled, forKey: "SoundEnabled")
+        }
+    }
+    
     // DataManager instance
     private let dataManager = DataManager.shared
     
@@ -39,6 +50,7 @@ class TodoViewModel: ObservableObject {
         loadData()
         loadTemplates()
         checkRecurringTasks()
+        loadSettings()
     }
     
     // MARK: - Project Methods
@@ -52,7 +64,8 @@ class TodoViewModel: ObservableObject {
             icon: icon
         )
         projects.append(newProject)
-        SoundManager.shared.playTaskAddSound()
+        playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
+        SoundManager.shared.playHapticFeedback()
     }
     
     func updateProject(_ project: Project, title: String, description: String, priority: Priority, deadline: Date?, duration: String, icon: String) {
@@ -63,20 +76,22 @@ class TodoViewModel: ObservableObject {
             projects[index].deadline = deadline
             projects[index].duration = duration
             projects[index].icon = icon
-            SoundManager.shared.playTaskAddSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
         }
     }
     
     func toggleProject(_ project: Project) {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             projects[index].isCompleted.toggle()
-            SoundManager.shared.playTaskCompleteSound()
+            SoundManager.shared.playHapticFeedback()
+            // Her checkbox tıklamasında ses çal
+            playSoundIfEnabled { SoundManager.shared.playTaskCompleteSound() }
         }
     }
     
     func deleteProject(_ project: Project) {
         projects.removeAll { $0.id == project.id }
-        SoundManager.shared.playTaskDeleteSound()
+        playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
     }
     
     func moveProject(from source: IndexSet, to destination: Int) {
@@ -89,7 +104,7 @@ class TodoViewModel: ObservableObject {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             let newSubtask = Subtask(title: title)
             projects[index].subtasks.append(newSubtask)
-            SoundManager.shared.playTaskAddSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
         }
     }
     
@@ -97,14 +112,16 @@ class TodoViewModel: ObservableObject {
         if let projectIndex = projects.firstIndex(where: { $0.id == project.id }),
            let subtaskIndex = projects[projectIndex].subtasks.firstIndex(where: { $0.id == subtask.id }) {
             projects[projectIndex].subtasks[subtaskIndex].isCompleted.toggle()
-            SoundManager.shared.playTaskCompleteSound()
+            SoundManager.shared.playHapticFeedback()
+            // Her checkbox tıklamasında ses çal
+            playSoundIfEnabled { SoundManager.shared.playTaskCompleteSound() }
         }
     }
     
     func deleteSubtask(from project: Project, subtask: Subtask) {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             projects[index].subtasks.removeAll { $0.id == subtask.id }
-            SoundManager.shared.playTaskDeleteSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
         }
     }
     
@@ -121,14 +138,14 @@ class TodoViewModel: ObservableObject {
     func addLink(to project: Project, link: String) {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             projects[index].links.append(link)
-            SoundManager.shared.playTaskAddSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
         }
     }
     
     func deleteLink(from project: Project, link: String) {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             projects[index].links.removeAll { $0 == link }
-            SoundManager.shared.playTaskDeleteSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
         }
     }
     
@@ -140,7 +157,7 @@ class TodoViewModel: ObservableObject {
             let formattedTag = tag.hasPrefix("#") ? tag : "#\(tag)"
             if !projects[index].tags.contains(formattedTag) {
                 projects[index].tags.append(formattedTag)
-                SoundManager.shared.playTaskAddSound()
+                playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
             }
         }
     }
@@ -148,7 +165,7 @@ class TodoViewModel: ObservableObject {
     func deleteTag(from project: Project, tag: String) {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             projects[index].tags.removeAll { $0 == tag }
-            SoundManager.shared.playTaskDeleteSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
         }
     }
     
@@ -180,18 +197,18 @@ class TodoViewModel: ObservableObject {
             subtasks: project.subtasks.map { $0.title }
         )
         templates.append(template)
-        SoundManager.shared.playTaskAddSound()
+        playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
     }
     
     func createProjectFromTemplate(_ template: ProjectTemplate) {
         let newProject = template.createProject()
         projects.append(newProject)
-        SoundManager.shared.playTaskAddSound()
+        playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
     }
     
     func deleteTemplate(_ template: ProjectTemplate) {
         templates.removeAll { $0.id == template.id }
-        SoundManager.shared.playTaskDeleteSound()
+        playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
     }
     
     // Önceden tanımlı şablonları yükle
@@ -301,14 +318,14 @@ class TodoViewModel: ObservableObject {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             let attachment = FileAttachment(fileName: fileName, filePath: filePath, fileType: fileType)
             projects[index].attachments.append(attachment)
-            SoundManager.shared.playTaskAddSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
         }
     }
     
     func deleteAttachment(from project: Project, attachment: FileAttachment) {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             projects[index].attachments.removeAll { $0.id == attachment.id }
-            SoundManager.shared.playTaskDeleteSound()
+            playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
         }
     }
     
@@ -316,32 +333,36 @@ class TodoViewModel: ObservableObject {
     func addRoutine(title: String) {
         let newRoutine = Routine(title: title)
         routines.append(newRoutine)
-        SoundManager.shared.playTaskAddSound()
+        playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
     }
     
     func toggleRoutine(_ routine: Routine) {
         if let index = routines.firstIndex(where: { $0.id == routine.id }) {
             routines[index].isCompleted.toggle()
+            SoundManager.shared.playHapticFeedback()
+            
+            // Her checkbox tıklamasında ses çal
+            playSoundIfEnabled { SoundManager.shared.playTaskCompleteSound() }
             
             // Tamamlandıysa bugünün tarihini kaydet
             if routines[index].isCompleted {
                 routines[index].lastCompletedDate = Date()
+                
+                // Tüm rutinler tamamlandıysa özel ses ve konfeti! 🎉
+                if routines.count > 0 && completedRoutinesCount == routines.count {
+                    playSoundIfEnabled { SoundManager.shared.playAllRoutinesCompleteSound() }
+                    // Konfeti animasyonu için notification gönder
+                    NotificationCenter.default.post(name: .showConfetti, object: nil)
+                }
             } else {
                 routines[index].lastCompletedDate = nil
-            }
-            
-            SoundManager.shared.playTaskCompleteSound()
-            
-            // Tüm rutinler tamamlandıysa özel ses! 🎉
-            if routines.count > 0 && completedRoutinesCount == routines.count {
-                SoundManager.shared.playSuccessSound()
             }
         }
     }
     
     func deleteRoutine(_ routine: Routine) {
         routines.removeAll { $0.id == routine.id }
-        SoundManager.shared.playTaskDeleteSound()
+        playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
     }
     
     func moveRoutine(from source: IndexSet, to destination: Int) {
@@ -355,7 +376,7 @@ class TodoViewModel: ObservableObject {
             routines[index].lastCompletedDate = nil
         }
         // didSet otomatik olarak saveData() çağırır
-        SoundManager.shared.playSuccessSound()
+        playSoundIfEnabled { SoundManager.shared.playSuccessSound() }
     }
     
     var completedRoutinesCount: Int {
@@ -486,5 +507,19 @@ class TodoViewModel: ObservableObject {
     func clearAllData() {
         projects = []
         routines = []
+    }
+    
+    // MARK: - Settings Methods
+    
+    /// Ayarları yükle
+    private func loadSettings() {
+        soundEnabled = UserDefaults.standard.bool(forKey: "SoundEnabled")
+    }
+    
+    /// Ses çal (ayar kontrolü ile)
+    private func playSoundIfEnabled(_ soundAction: () -> Void) {
+        if soundEnabled {
+            soundAction()
+        }
     }
 }

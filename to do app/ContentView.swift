@@ -8,6 +8,8 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = TodoViewModel()
+    @EnvironmentObject var themeManager: ThemeManager
+    @State private var showingSettings = false
     
     var body: some View {
         HStack(spacing: 0) {
@@ -22,6 +24,23 @@ struct ContentView: View {
                 .frame(width: 400)
         }
         .frame(minWidth: 1200, minHeight: 700)
+        .background(Color.adaptiveWindowBackground)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: {
+                    showingSettings = true
+                }) {
+                    Image(systemName: "gearshape.fill")
+                        .font(.title2)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView(viewModel: viewModel)
+                .environmentObject(themeManager)
+                .frame(width: 500, height: 600)
+        }
     }
 }
 

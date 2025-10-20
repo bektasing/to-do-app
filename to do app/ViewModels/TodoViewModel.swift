@@ -26,11 +26,7 @@ class TodoViewModel: ObservableObject {
         }
     }
     
-    @Published var templates: [ProjectTemplate] = [] {
-        didSet {
-            saveTemplates()
-        }
-    }
+    // Şablon sistemi kaldırıldı
     
     @Published var soundEnabled: Bool = true {
         didSet {
@@ -38,17 +34,28 @@ class TodoViewModel: ObservableObject {
         }
     }
     
+    // Yeni Gün butonu için son kullanım tarihi
+    @Published var lastResetDate: Date? {
+        didSet {
+            if let date = lastResetDate {
+                UserDefaults.standard.set(date, forKey: "LastResetDate")
+            }
+        }
+    }
+    
+    // StatisticsManager instance
+    let statisticsManager = StatisticsManager()
+    
     // DataManager instance
     private let dataManager = DataManager.shared
     
     // UserDefaults anahtarları (yedek sistem)
     private let projectsKey = "SavedProjects"
     private let routinesKey = "SavedRoutines"
-    private let templatesKey = "SavedTemplates"
+    // templatesKey kaldırıldı
     
     init() {
         loadData()
-        loadTemplates()
         checkRecurringTasks()
         loadSettings()
     }
@@ -86,6 +93,11 @@ class TodoViewModel: ObservableObject {
             SoundManager.shared.playHapticFeedback()
             // Her checkbox tıklamasında ses çal
             playSoundIfEnabled { SoundManager.shared.playTaskCompleteSound() }
+            
+            // Streak güncelle (görev tamamlandıysa)
+            if projects[index].isCompleted {
+                statisticsManager.updateStreak(taskCompleted: true)
+            }
         }
     }
     
@@ -183,71 +195,8 @@ class TodoViewModel: ObservableObject {
         return Array(Set(categories)).sorted()
     }
     
-    // MARK: - Template Methods (Şablonlar)
-    
-    func saveAsTemplate(from project: Project, name: String) {
-        let template = ProjectTemplate(
-            name: name,
-            description: project.description,
-            priority: project.priority,
-            duration: project.duration,
-            icon: project.icon,
-            tags: project.tags,
-            category: project.category,
-            subtasks: project.subtasks.map { $0.title }
-        )
-        templates.append(template)
-        playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
-    }
-    
-    func createProjectFromTemplate(_ template: ProjectTemplate) {
-        let newProject = template.createProject()
-        projects.append(newProject)
-        playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
-    }
-    
-    func deleteTemplate(_ template: ProjectTemplate) {
-        templates.removeAll { $0.id == template.id }
-        playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
-    }
-    
-    // Önceden tanımlı şablonları yükle
-    func loadDefaultTemplates() {
-        if templates.isEmpty {
-            templates = [
-                ProjectTemplate(
-                    name: "Geliştirme Projesi",
-                    description: "Yazılım geliştirme projesi şablonu",
-                    priority: .high,
-                    duration: "2 hafta",
-                    icon: "💻",
-                    tags: ["#iş", "#geliştirme"],
-                    category: "İş",
-                    subtasks: ["Tasarım", "Geliştirme", "Test", "Deploy"]
-                ),
-                ProjectTemplate(
-                    name: "Blog Yazısı",
-                    description: "İçerik oluşturma şablonu",
-                    priority: .medium,
-                    duration: "3 gün",
-                    icon: "📝",
-                    tags: ["#içerik", "#blog"],
-                    category: "Kişisel",
-                    subtasks: ["Araştırma", "Taslak", "Düzenleme", "Yayınla"]
-                ),
-                ProjectTemplate(
-                    name: "Etkinlik Planı",
-                    description: "Etkinlik organizasyonu şablonu",
-                    priority: .medium,
-                    duration: "1 hafta",
-                    icon: "🎉",
-                    tags: ["#etkinlik", "#organizasyon"],
-                    category: "Organizasyon",
-                    subtasks: ["Mekan ayarla", "Davetiye gönder", "Catering", "Sunum hazırla"]
-                )
-            ]
-        }
-    }
+    // MARK: - Template Methods (Kaldırıldı)
+    // Şablon sistemi kaldırıldı
     
     // MARK: - Recurring Tasks (Tekrar Eden Görevler)
     
@@ -348,6 +297,9 @@ class TodoViewModel: ObservableObject {
             if routines[index].isCompleted {
                 routines[index].lastCompletedDate = Date()
                 
+                // Streak güncelle
+                statisticsManager.updateStreak(taskCompleted: true)
+                
                 // Tüm rutinler tamamlandıysa özel ses ve konfeti! 🎉
                 if routines.count > 0 && completedRoutinesCount == routines.count {
                     playSoundIfEnabled { SoundManager.shared.playAllRoutinesCompleteSound() }
@@ -369,14 +321,27 @@ class TodoViewModel: ObservableObject {
         routines.move(fromOffsets: source, toOffset: destination)
     }
     
-    /// Tüm rutinleri sıfırla (Yeni Gün)
+    /// Tüm rutinleri sıfırla (Yeni Gün) - Günde 1 kere kullanılabilir
     func resetAllRoutines() {
         for index in routines.indices {
             routines[index].isCompleted = false
             routines[index].lastCompletedDate = nil
         }
+        // Son sıfırlama tarihini kaydet
+        lastResetDate = Date()
         // didSet otomatik olarak saveData() çağırır
         playSoundIfEnabled { SoundManager.shared.playSuccessSound() }
+    }
+    
+    /// Bugün zaten sıfırlandı mı?
+    func canResetToday() -> Bool {
+        guard let lastReset = lastResetDate else { return true }
+        
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let lastResetDay = calendar.startOfDay(for: lastReset)
+        
+        return today > lastResetDay
     }
     
     var completedRoutinesCount: Int {
@@ -448,29 +413,7 @@ class TodoViewModel: ObservableObject {
         // Manuel sıfırlama için resetAllRoutines() kullanılıyor
     }
     
-    /// Şablonları kaydet
-    private func saveTemplates() {
-        // 1. Dosya sistemine kaydet
-        dataManager.saveTemplates(templates)
-        
-        // 2. UserDefaults'a da kaydet
-        if let templatesData = try? JSONEncoder().encode(templates) {
-            UserDefaults.standard.set(templatesData, forKey: templatesKey)
-        }
-    }
-    
-    /// Şablonları yükle
-    private func loadTemplates() {
-        // 1. Önce dosya sisteminden yükle
-        let fileTemplates = dataManager.loadTemplates()
-        
-        // 2. Eğer dosya boşsa, UserDefaults'tan yükle
-        if fileTemplates.isEmpty {
-            templates = loadFromUserDefaults(key: templatesKey, type: [ProjectTemplate].self) ?? []
-        } else {
-            templates = fileTemplates
-        }
-    }
+    // saveTemplates ve loadTemplates kaldırıldı - şablon sistemi artık yok
     
     // MARK: - Debug Helper (Geliştirme için)
     
@@ -514,6 +457,7 @@ class TodoViewModel: ObservableObject {
     /// Ayarları yükle
     private func loadSettings() {
         soundEnabled = UserDefaults.standard.bool(forKey: "SoundEnabled")
+        lastResetDate = UserDefaults.standard.object(forKey: "LastResetDate") as? Date
     }
     
     /// Ses çal (ayar kontrolü ile)

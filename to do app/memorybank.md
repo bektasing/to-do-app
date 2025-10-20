@@ -9,11 +9,11 @@
 
 | Bilgi | Detay |
 |-------|-------|
-| **Versiyon** | 0.8.0 |
+| **Versiyon** | 1.0.0 |
 | **Platform** | macOS 12.0+ |
-| **Teknoloji** | Swift + SwiftUI |
+| **Teknoloji** | Swift + SwiftUI + Charts |
 | **Durum** | 🟢 Çalışır Durumda |
-| **Son Güncelleme** | 19 Ekim 2025 |
+| **Son Güncelleme** | 21 Ekim 2025 |
 | **Toplam Planlanan Özellik** | 80+ özellik |
 | **Geliştirme Aşaması** | 🚀 Aktif Geliştirme |
 
@@ -62,6 +62,75 @@
 - 🔴 **Entegrasyonlar** (4+ özellik) - Çok Zor
 
 **Toplam: 18 öncelik kategorisi, 80+ alt özellik**
+
+---
+
+## 🎉 SON GÜNCELLEME: v1.0.0 - GELİŞMİŞ İSTATİSTİK VE TEMA SİSTEMİ!
+
+### 🚀 v1.0.0 - Gelişmiş İstatistikler, Başarı Rozetleri ve Sistem Teması (21 Ekim 2025)
+
+#### 🎯 Yeni Özellikler
+- ✅ **Verimlilik Skoru** - 0-100 arası dinamik skor hesaplama (5 seviye)
+- ✅ **Başarı Rozetleri** - 8 farklı achievement sistemi (görev + streak)
+- ✅ **Pasta Grafiği** - Öncelik dağılımı için Swift Charts pie chart
+- ✅ **Toplam Sayaçlar** - Toplam/Tamamlanan/Aktif görev kartları
+- ✅ **Ortalama Tamamlanma Süresi** - Proje bazlı süre analizi
+- ✅ **Sistem Teması** - macOS tema ayarlarını otomatik takip
+- ✅ **Yeni Gün Limiti** - Günde 1 kere kullanım (hile koruması)
+- ✅ **Gelişmiş Ses Efektleri** - Tink, Purr, Bottle, Glass sesleri
+- ✅ **Rutin Başarı Ayrımı** - Rutinler achievement'lara dahil edilmez
+
+#### 🎨 Tema Sistemi İyileştirmeleri
+- ✅ **3 Tema Seçeneği:** Sistem, Aydınlık, Karanlık
+- ✅ **Dinamik Renkler** - Computed properties ile otomatik güncelleme
+- ✅ **NSColor Entegrasyonu** - Sistem renkleri kullanımı
+- ✅ **Instant Theme Switch** - Tema değişikliği anında uygulanır
+
+#### 🔒 Güvenlik ve Adalet
+- ✅ **Yeni Gün Butonu** - Günlük limit ile streak hilesi önlendi
+- ✅ **Rutin Ayrımı** - Sadece kalıcı görevler başarı rozetlerinde sayılır
+- ✅ **Tarih Takibi** - Son sıfırlama tarihi UserDefaults'ta saklanır
+
+### ✨ v0.9.0 - İstatistik ve Analitik Dashboard (21 Ekim 2025)
+
+#### 📊 İstatistik Sistemi (YENİ!)
+- ✅ **StatisticsManager.swift** - Kapsamlı veri analizi ve hesaplama
+- ✅ **StatisticsView.swift** - Swift Charts ile profesyonel grafikler
+- ✅ **Haftalık Tamamlama Grafiği** - Son 7 gün bar chart
+- ✅ **Aylık Verimlilik Grafiği** - Son 6 ay line chart
+- ✅ **Saatlik Verimlilik Analizi** - En üretken saatler
+- ✅ **Streak Takibi** - Kaç gün üst üste görev tamamlandı
+- ✅ **En Üretken Gün** - Hangi gün en çok görev tamamlanıyor
+- ✅ **Hedef vs Gerçekleşen** - Tamamlama oranı ve yüzde
+- ✅ **Öncelik Dağılımı** - Yüksek/Orta/Düşük görev dağılımı
+
+#### 📈 Özet Kartlar (YENİ!)
+- ✅ **Güncel Seri** - Mevcut streak sayısı (🔥 ikon)
+- ✅ **En Uzun Seri** - Longest streak kaydı (⭐ ikon)
+- ✅ **Tamamlama Oranı** - Yüzde ve görev sayısı (✓ ikon)
+- ✅ **Toplam Aktif Günler** - Kaç gün görev tamamlandı (📅 ikon)
+
+#### 🎨 UI/UX İyileştirmeleri
+- ✅ **Toolbar İstatistik Butonu** - Hızlı erişim (chart.bar.fill ikonu)
+- ✅ **Modal İstatistik Sayfası** - 900x700px tam ekran dashboard
+- ✅ **Tema-Aware Grafikler** - Aydınlık/karanlık mod desteği
+- ✅ **Smooth Animasyonlar** - Chart geçişleri ve güncellemeler
+- ✅ **Empty States** - Veri yoksa bilgilendirici mesajlar
+
+#### 🔧 Teknik İyileştirmeler
+- ✅ **Swift Charts Framework** - Native macOS grafik sistemi
+- ✅ **Real-time Streak Update** - Her görev tamamlamada otomatik güncelleme
+- ✅ **Persistent Streak Data** - UserDefaults ile kalıcı streak kayıtları
+- ✅ **Computed Statistics** - Dinamik veri hesaplama
+- ✅ **Turkish Localization** - Tüm grafikler ve etiketler Türkçe
+
+#### 📁 Yeni Dosyalar
+- ✅ **Models/StatisticsManager.swift** (450+ satır) - İstatistik motoru
+- ✅ **Wiews/StatisticsView.swift** (550+ satır) - Analitik dashboard
+
+#### 🔄 Güncellenen Dosyalar
+- ✅ **ViewModels/TodoViewModel.swift** - StatisticsManager entegrasyonu
+- ✅ **ContentView.swift** - İstatistik butonu ve sheet eklendi
 
 ---
 
@@ -218,19 +287,26 @@ private let routinesKey = "SavedRoutines"
 ```
 to do app/
 ├── 📂 Models/
-│   ├── Project.swift          ✅ Icon özelliği (v0.4.0)
+│   ├── Project.swift          ✅ Şablon sistemi kaldırıldı (v1.0.0)
 │   ├── Routine.swift          ✅ Günlük sıfırlama eklendi (v0.5.0)
-│   └── SoundManager.swift     ✅ Tamamlandı
+│   ├── SoundManager.swift     ✅ Gelişmiş sesler: Tink, Purr (v1.0.0)
+│   ├── ThemeManager.swift     ✅ Sistem teması + dinamik renkler (v1.0.0)
+│   ├── DataManager.swift      ✅ Şablon kaldırıldı (v1.0.0)
+│   └── StatisticsManager.swift ✅ Başarı rozetleri + verimlilik (v1.0.0)
 │
 ├── 📂 ViewModels/
-│   └── TodoViewModel.swift    ✅ Sürükle-bırak + günlük reset (v0.5.0)
+│   └── TodoViewModel.swift    ✅ İstatistik entegrasyonu (v0.9.0)
 │
 ├── 📂 Wiews/ (Views yerine yanlış yazılmış)
-│   ├── ProjectsPanel.swift    ✅ Sürükle-bırak eklendi (v0.5.0)
-│   └── RoutinesPanel.swift    ✅ Sürükle-bırak eklendi (v0.5.0)
+│   ├── ProjectsPanel.swift    ✅ Şablon butonu kaldırıldı (v1.0.0)
+│   ├── RoutinesPanel.swift    ✅ Yeni Gün limiti eklendi (v1.0.0)
+│   ├── ConfettiView.swift     ✅ Konfeti animasyonu (v0.8.0)
+│   ├── SettingsView.swift     ✅ Sistem teması seçeneği (v1.0.0)
+│   ├── StatisticsView.swift   ✅ Pasta grafiği eklendi (v1.0.0)
+│   └── StatisticsViewExtensions.swift ✅ Başarı rozetleri UI (v1.0.0) 🆕
 │
-├── ContentView.swift          ✅ Tamamlandı
-├── to_do_appApp.swift         ✅ Varsayılan
+├── ContentView.swift          ✅ İstatistik butonu eklendi (v0.9.0)
+├── to_do_appApp.swift         ✅ ThemeManager injection (v0.8.0)
 └── Assets.xcassets/           ✅ Varsayılan
 ```
 
@@ -285,6 +361,14 @@ to do app/
 - ✅ Tamamlanan rutin sayısı
 - ✅ Tamamlanma yüzdesi
 - ✅ Görsel progress bar
+- ✅ **[YENİ v0.9.0]** Haftalık tamamlama grafiği (bar chart)
+- ✅ **[YENİ v0.9.0]** Aylık verimlilik grafiği (line chart)
+- ✅ **[YENİ v0.9.0]** Saatlik verimlilik analizi
+- ✅ **[YENİ v0.9.0]** Streak takibi (güncel + en uzun seri)
+- ✅ **[YENİ v0.9.0]** En üretken gün/saat analizi
+- ✅ **[YENİ v0.9.0]** Hedef vs gerçekleşen karşılaştırma
+- ✅ **[YENİ v0.9.0]** Öncelik dağılımı grafiği
+- ✅ **[YENİ v0.9.0]** Özet istatistik kartları
 
 ---
 
@@ -541,41 +625,46 @@ to do app/
 
 ---
 
-### 🔵 ÖNCELIK 5: İSTATİSTİKLER & ANALİTİK
+### ✅ TAMAMLANDI: İSTATİSTİKLER & ANALİTİK (v0.9.0)
 
-#### 5.1 - Haftalık Tamamlama Grafiği
+#### ✅ 5.1 - Haftalık Tamamlama Grafiği (TAMAMLANDI)
 **Süre:** 60 dakika  
-**Zorluk:** Zor
+**Zorluk:** Zor  
+**Durum:** ✅ Çözüldü
 
-**Yapılacaklar:**
-- [ ] Swift Charts framework kullan
-- [ ] Son 7 gün tamamlanan görevler
-- [ ] Bar chart gösterimi
-- [ ] Hover'da detaylı bilgi
+**Tamamlanan:**
+- ✅ Swift Charts framework kullanıldı
+- ✅ Son 7 gün tamamlanan görevler
+- ✅ Bar chart gösterimi (gradient)
+- ✅ Türkçe gün isimleri
 
 ---
 
-#### 5.2 - Streak Takibi
+#### ✅ 5.2 - Streak Takibi (TAMAMLANDI)
 **Süre:** 40 dakika  
-**Zorluk:** Orta
+**Zorluk:** Orta  
+**Durum:** ✅ Çözüldü
 
-**Yapılacaklar:**
-- [ ] Kaç gün üst üste görev tamamlandı
-- [ ] Streak counter UI
-- [ ] En uzun streak kaydı
-- [ ] Streak kırılınca bildirim
+**Tamamlanan:**
+- ✅ Kaç gün üst üste görev tamamlandı
+- ✅ Streak counter UI (özet kartlar)
+- ✅ En uzun streak kaydı
+- ✅ Otomatik streak kontrolü
+- ✅ UserDefaults ile kalıcı kayıt
 
 ---
 
-#### 5.3 - Verimlilik Skoru
+#### ✅ 5.3 - Verimlilik Skoru (TAMAMLANDI)
 **Süre:** 50 dakika  
-**Zorluk:** Orta
+**Zorluk:** Orta  
+**Durum:** ✅ Çözüldü
 
-**Yapılacaklar:**
-- [ ] Günlük/haftalık/aylık skor hesaplama
-- [ ] Tamamlanma oranı
-- [ ] Öncelik dağılımı
-- [ ] Progress bar gösterimi
+**Tamamlanan:**
+- ✅ Haftalık/aylık skor hesaplama
+- ✅ Tamamlanma oranı (yüzde)
+- ✅ Öncelik dağılımı grafiği
+- ✅ Saatlik verimlilik analizi
+- ✅ En üretken gün/saat bulma
 
 ---
 
@@ -1430,6 +1519,55 @@ Her özellik eklenirken kullanıcı deneyimini ön planda tut! 🚀
 
 ---
 
+## 🎊 v0.9.0 CHANGELOG (21 Ekim 2025)
+
+### 🎉 Yeni Özellikler
+- ✅ **İstatistik ve Analitik Dashboard:** Kapsamlı veri analizi sistemi
+- ✅ **Haftalık Tamamlama Grafiği:** Son 7 gün bar chart (Swift Charts)
+- ✅ **Aylık Verimlilik Grafiği:** Son 6 ay line chart
+- ✅ **Saatlik Verimlilik:** En üretken saatleri gösterir
+- ✅ **Streak Takibi:** Güncel seri + en uzun seri kaydı
+- ✅ **En Üretken Gün:** Hangi gün en çok görev tamamlanıyor
+- ✅ **Hedef vs Gerçekleşen:** Tamamlama oranı ve yüzde
+- ✅ **Öncelik Dağılımı:** Yüksek/Orta/Düşük görev analizi
+- ✅ **Özet Kartlar:** 4 adet istatistik kartı (streak, tamamlama, aktif günler)
+
+### 🔧 Teknik İyileştirmeler
+- **StatisticsManager:** 450+ satır veri analizi motoru
+- **StatisticsView:** 550+ satır grafik dashboard
+- **Swift Charts:** Native macOS grafik framework entegrasyonu
+- **Real-time Updates:** Her görev tamamlamada otomatik streak güncelleme
+- **Persistent Data:** UserDefaults ile streak verisi kalıcı
+- **Turkish Localization:** Tüm grafikler ve etiketler Türkçe
+
+### 🎨 UI/UX Geliştirmeleri
+- **Toolbar Butonu:** İstatistiklere hızlı erişim (chart.bar.fill)
+- **Modal Dashboard:** 900x700px tam ekran analitik sayfası
+- **Tema Desteği:** Aydınlık/karanlık mod uyumlu grafikler
+- **Empty States:** Veri yoksa bilgilendirici mesajlar
+- **Gradient Charts:** Profesyonel görünümlü grafikler
+
+### 📁 Yeni Dosyalar
+- `Models/StatisticsManager.swift` (450+ satır)
+- `Wiews/StatisticsView.swift` (550+ satır)
+
+### 🔄 Güncellenen Dosyalar
+- `ViewModels/TodoViewModel.swift` - StatisticsManager entegrasyonu
+- `ContentView.swift` - İstatistik butonu ve sheet eklendi
+
+### 📊 İstatistikler
+- **+1000 satır** eklendi
+- **4 dosya** değiştirildi
+- **2 yeni dosya** oluşturuldu
+- **9 grafik türü** eklendi
+
+### 🎯 Sonraki Hedefler
+- **v1.0.0:** Arama ve filtreleme sistemi
+- **v1.1.0:** Başarı rozetleri (achievements)
+- **v1.2.0:** Bildirimler ve hatırlatıcılar
+
+---
+
 ## 🎊 v0.8.0 CHANGELOG (19 Ekim 2025)
 
 ### 🎉 Yeni Özellikler
@@ -1488,6 +1626,6 @@ Her özellik eklenirken kullanıcı deneyimini ön planda tut! 🚀
 
 ---
 
-> **Son güncelleme:** 19 Ekim 2025  
-> **Versiyon:** 0.8.0  
-> **Sonraki hedef:** 0.9.0 (Arama ve filtreleme)
+> **Son güncelleme:** 21 Ekim 2025  
+> **Versiyon:** 0.9.0  
+> **Sonraki hedef:** 1.0.0 (Arama ve filtreleme)

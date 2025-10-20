@@ -46,17 +46,24 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     // Appearance Section
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Görünüm")
-                            .font(.headline)
-                            .foregroundColor(.primary)
+                        HStack {
+                            Image(systemName: "paintbrush.fill")
+                                .foregroundColor(.purple)
+                            Text("Tema")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                        }
                         
                         Picker("Tema", selection: $themeManager.currentTheme) {
-                            ForEach(AppTheme.allCases, id: \.self) { theme in
-                                Text(theme.displayName)
-                                    .tag(theme)
-                            }
+                            Text("Sistem").tag(AppTheme.system)
+                            Text("Aydınlık").tag(AppTheme.light)
+                            Text("Karanlık").tag(AppTheme.dark)
                         }
                         .pickerStyle(.segmented)
+                        
+                        Text("Sistem seçeneği macOS tema ayarlarınızı takip eder")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         
                     }
                     .padding()

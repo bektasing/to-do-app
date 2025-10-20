@@ -7,13 +7,14 @@
 
 import Foundation
 
+// Şablon sistemi kaldırıldı - ProjectTemplate artık yok
+
 class DataManager {
     static let shared = DataManager()
     
     private let documentsDirectory: URL
     private let projectsFile: URL
     private let routinesFile: URL
-    private let templatesFile: URL
     
     private init() {
         // Documents dizinini al
@@ -22,13 +23,11 @@ class DataManager {
         // Dosya yollarını oluştur
         projectsFile = documentsDirectory.appendingPathComponent("projects.json")
         routinesFile = documentsDirectory.appendingPathComponent("routines.json")
-        templatesFile = documentsDirectory.appendingPathComponent("templates.json")
         
         print("📁 DataManager initialized")
         print("📁 Documents directory: \(documentsDirectory.path)")
         print("📁 Projects file: \(projectsFile.path)")
         print("📁 Routines file: \(routinesFile.path)")
-        print("📁 Templates file: \(templatesFile.path)")
     }
     
     // MARK: - Projects
@@ -79,29 +78,8 @@ class DataManager {
         }
     }
     
-    // MARK: - Templates
-    
-    func saveTemplates(_ templates: [ProjectTemplate]) {
-        do {
-            let data = try JSONEncoder().encode(templates)
-            try data.write(to: templatesFile)
-            print("💾 Templates saved to file: \(templates.count) items")
-        } catch {
-            print("❌ Failed to save templates: \(error)")
-        }
-    }
-    
-    func loadTemplates() -> [ProjectTemplate] {
-        do {
-            let data = try Data(contentsOf: templatesFile)
-            let templates = try JSONDecoder().decode([ProjectTemplate].self, from: data)
-            print("📂 Templates loaded from file: \(templates.count) items")
-            return templates
-        } catch {
-            print("📂 No templates file found or failed to load: \(error)")
-            return []
-        }
-    }
+    // MARK: - Templates (Kaldırıldı)
+    // Şablon sistemi kaldırıldı
     
     // MARK: - Debug
     
@@ -109,6 +87,5 @@ class DataManager {
         print("📁 FILE STATUS:")
         print("📁 Projects file exists: \(FileManager.default.fileExists(atPath: projectsFile.path))")
         print("📁 Routines file exists: \(FileManager.default.fileExists(atPath: routinesFile.path))")
-        print("📁 Templates file exists: \(FileManager.default.fileExists(atPath: templatesFile.path))")
     }
 }

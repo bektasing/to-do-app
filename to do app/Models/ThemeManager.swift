@@ -12,6 +12,7 @@ import Combine
 enum AppTheme: String, CaseIterable, Codable {
     case light = "light"
     case dark = "dark"
+    case system = "system"
     
     var displayName: String {
         switch self {
@@ -19,6 +20,8 @@ enum AppTheme: String, CaseIterable, Codable {
             return "Aydınlık"
         case .dark:
             return "Karanlık"
+        case .system:
+            return "Sistem"
         }
     }
 }
@@ -49,22 +52,36 @@ class ThemeManager: ObservableObject {
     private func applyTheme() {
         print("🎨 applyTheme çağrıldı, currentTheme: \(currentTheme.rawValue)")
         
-        switch currentTheme {
-        case .light:
-            NSApp.appearance = NSAppearance(named: .aqua)
-            print("☀️ Manuel aydınlık tema uygulandı")
-        case .dark:
-            NSApp.appearance = NSAppearance(named: .darkAqua)
-            print("🌙 Manuel karanlık tema uygulandı")
-        }
-        
-        // UI'ı zorla güncelle
+        // Ana thread'de çalıştır
         DispatchQueue.main.async {
+            switch self.currentTheme {
+            case .light:
+                NSApp.appearance = NSAppearance(named: .aqua)
+                print("☀️ Manuel aydınlık tema uygulandı")
+            case .dark:
+                NSApp.appearance = NSAppearance(named: .darkAqua)
+                print("🌙 Manuel karanlık tema uygulandı")
+            case .system:
+                NSApp.appearance = nil // Sistem temasını kullan
+                print("💻 Sistem teması uygulandı")
+            }
+            
+            // Tüm pencereleri güncelle
+            for window in NSApp.windows {
+                window.invalidateShadow()
+            }
+            
+            // UI'ı zorla güncelle
             self.objectWillChange.send()
         }
     }
     
     var isLightMode: Bool {
+        if currentTheme == .system {
+            // Sistem teması kullanılıyorsa, gerçek sistem temasını kontrol et
+            let appearance = NSApp.effectiveAppearance
+            return !appearance.name.rawValue.contains("dark")
+        }
         return currentTheme == .light
     }
     
@@ -73,36 +90,17 @@ class ThemeManager: ObservableObject {
 
 // Color extensions for theme support
 extension Color {
-    static func adaptiveBackground(_ light: Color, dark: Color) -> Color {
-        if ThemeManager.shared.isLightMode {
-            return light
-        } else {
-            return dark
-        }
+    // Dinamik renkler - Tema değiştiğinde otomatik güncellenir
+    static var adaptiveCardBackground: Color {
+        Color(NSColor.controlBackgroundColor)
     }
     
-    static func adaptiveText(_ light: Color, dark: Color) -> Color {
-        if ThemeManager.shared.isLightMode {
-            return light
-        } else {
-            return dark
-        }
+    static var adaptiveWindowBackground: Color {
+        Color(NSColor.windowBackgroundColor)
     }
     
-    // Theme-aware colors
-    static let adaptiveCardBackground = Color.adaptiveBackground(
-        Color.white.opacity(0.8),
-        dark: Color(NSColor.controlBackgroundColor)
-    )
-    
-    static let adaptiveWindowBackground = Color.adaptiveBackground(
-        Color(NSColor.windowBackgroundColor).opacity(0.3),
-        dark: Color(NSColor.windowBackgroundColor).opacity(0.5)
-    )
-    
-    static let adaptiveSecondaryText = Color.adaptiveText(
-        Color.secondary,
-        dark: Color.secondary
-    )
+    static var adaptiveSecondaryText: Color {
+        Color.secondary
+    }
 }
 

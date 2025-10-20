@@ -36,35 +36,7 @@ enum RecurrenceType: String, Codable, CaseIterable {
     case yearly = "Yıllık"
 }
 
-// Proje Şablonu
-struct ProjectTemplate: Identifiable, Codable, Hashable {
-    var id = UUID()
-    var name: String
-    var description: String
-    var priority: Priority
-    var duration: String
-    var icon: String
-    var tags: [String]
-    var category: String?
-    var subtasks: [String] // Subtask başlıkları
-    
-    // Şablondan proje oluştur
-    func createProject() -> Project {
-        return Project(
-            title: name,
-            description: description,
-            priority: priority,
-            deadline: nil,
-            duration: duration,
-            icon: icon,
-            notes: "",
-            links: [],
-            subtasks: subtasks.map { Subtask(title: $0) },
-            tags: tags,
-            category: category
-        )
-    }
-}
+// Şablon sistemi kaldırıldı
 
 // Dosya eklentisi
 struct FileAttachment: Identifiable, Codable, Hashable {

@@ -11,61 +11,59 @@ import AppKit
 class SoundManager: NSObject {
     static let shared = SoundManager()
     
-    private var audioPlayer: AVAudioPlayer?
-    private var isPlaying = false
-    
     private override init() {
         super.init()
     }
     
     private func playSound(named name: String, volume: Float = 0.7) {
-        // Önceki sesi durdur
-        stopAllSounds()
+        // INSTANT PLAYBACK - Checkbox'a tıkladığınız anda çalar!
+        // Her tıklama bağımsız bir ses instance'ı oluşturur
         
         // Sistem seslerini kullan
-        guard let sound = NSSound(named: name) else { return }
+        guard let sound = NSSound(named: name) else { 
+            print("⚠️ Ses bulunamadı: \(name)")
+            return 
+        }
         
         // Ses seviyesini ayarla
         sound.volume = volume
         
-        // Smooth playback için delegate kullan
-        sound.delegate = self
-        sound.play()
-        isPlaying = true
+        // ANINDA çal - hiçbir gecikme yok!
+        DispatchQueue.main.async {
+            sound.play()
+        }
     }
     
-    private func stopAllSounds() {
-        audioPlayer?.stop()
-        audioPlayer = nil
-        isPlaying = false
-    }
+    // stopAllSounds kaldırıldı - artık spam koruması yok
     
     func playTaskCompleteSound() {
-        // Daha iyi tamamlama sesi
-        playSound(named: "Glass", volume: 0.8)
+        // ✨ CHECKBOX TAMAMLAMA - Tatmin edici "tink" sesi
+        playSound(named: "Tink", volume: 0.9)
     }
     
     func playTaskAddSound() {
-        playSound(named: "Pop", volume: 0.6)
+        // ➕ YENİ GÖREV - Hafif pop sesi
+        playSound(named: "Pop", volume: 0.7)
     }
     
     func playTaskDeleteSound() {
-        playSound(named: "Funk", volume: 0.5)
+        // 🗑️ SİLME - Swoosh sesi
+        playSound(named: "Bottle", volume: 0.6)
     }
     
     func playSuccessSound() {
-        // Daha etkileyici başarı sesi
-        playSound(named: "Hero", volume: 0.9)
+        // 🎉 BAŞARI - Etkileyici ses
+        playSound(named: "Glass", volume: 1.0)
     }
     
     func playRoutineCompleteSound() {
-        // Rutin tamamlama için özel ses
-        playSound(named: "Ping", volume: 0.7)
+        // ✅ RUTİN TAMAMLAMA - Pozitif ses
+        playSound(named: "Purr", volume: 0.8)
     }
     
     func playAllRoutinesCompleteSound() {
-        // Tüm rutinler tamamlandığında özel ses
-        playSound(named: "Hero", volume: 1.0)
+        // 🏆 TÜM RUTİNLER - Zafer sesi!
+        playSound(named: "Glass", volume: 1.0)
     }
     
     // Haptic feedback for checkboxes
@@ -74,10 +72,4 @@ class SoundManager: NSObject {
     }
 }
 
-// Delegate extension
-// MARK: - NSSoundDelegate
-extension SoundManager: NSSoundDelegate {
-    func sound(_ sound: NSSound, didFinishPlaying flag: Bool) {
-        isPlaying = false
-    }
-}
+// NSSoundDelegate kaldırıldı - artık gerekli değil

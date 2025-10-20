@@ -12,7 +12,6 @@ struct ProjectsPanel: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var newProjectTitle = ""
     @State private var showingAddSheet = false
-    @State private var showingTemplateSheet = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -50,19 +49,6 @@ struct ProjectsPanel: View {
                     .cornerRadius(8)
                 }
                 .buttonStyle(.plain)
-                
-                // Template Button
-                Button(action: { showingTemplateSheet = true }) {
-                    HStack {
-                        Image(systemName: "doc.on.doc.fill")
-                        Text("Şablonlar")
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.purple.opacity(0.1))
-                    .cornerRadius(8)
-                }
-                .buttonStyle(.plain)
             }
             .padding()
             .background(Color.adaptiveWindowBackground)
@@ -89,9 +75,6 @@ struct ProjectsPanel: View {
         }
         .sheet(isPresented: $showingAddSheet) {
             AddProjectSheet(viewModel: viewModel, isPresented: $showingAddSheet)
-        }
-        .sheet(isPresented: $showingTemplateSheet) {
-            TemplateSheet(viewModel: viewModel, isPresented: $showingTemplateSheet)
         }
     }
 }
@@ -1162,130 +1145,5 @@ struct ProjectDetailSheet: View {
     }
 }
 
-// MARK: - Template Sheet
-struct TemplateSheet: View {
-    @ObservedObject var viewModel: TodoViewModel
-    @Binding var isPresented: Bool
-    @State private var selectedTemplate: ProjectTemplate?
-    @State private var showingSaveTemplate = false
-    @State private var templateName = ""
-    @State private var selectedProjectToSave: Project?
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Text("📋 Proje Şablonları")
-                .font(.title)
-                .fontWeight(.bold)
-            
-            // Load Default Templates
-            if viewModel.templates.isEmpty {
-                Button("Varsayılan Şablonları Yükle") {
-                    viewModel.loadDefaultTemplates()
-                }
-                .padding()
-            }
-            
-            // Templates List
-            ScrollView {
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(viewModel.templates) { template in
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack {
-                                Text(template.icon)
-                                    .font(.system(size: 32))
-                                
-                                VStack(alignment: .leading) {
-                                    Text(template.name)
-                                        .font(.headline)
-                                    Text(template.description)
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Spacer()
-                                
-                                Button("Kullan") {
-                                    viewModel.createProjectFromTemplate(template)
-                                    isPresented = false
-                                }
-                                
-                                Button(action: {
-                                    viewModel.deleteTemplate(template)
-                                }) {
-                                    Image(systemName: "trash")
-                                        .foregroundColor(.red)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                            
-                            // Template details
-                            HStack {
-                                Text("Öncelik: \(template.priority.rawValue)")
-                                    .font(.caption)
-                                Text("•")
-                                Text("\(template.subtasks.count) alt görev")
-                                    .font(.caption)
-                                if !template.tags.isEmpty {
-                                    Text("•")
-                                    Text("\(template.tags.joined(separator: ", "))")
-                                        .font(.caption)
-                                }
-                            }
-                            .foregroundColor(.secondary)
-                        }
-                        .padding()
-                        .background(Color.adaptiveCardBackground)
-                        .cornerRadius(8)
-                    }
-                }
-            }
-            
-            Divider()
-            
-            // Save Current Project as Template
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Mevcut Projeden Şablon Oluştur")
-                    .font(.headline)
-                
-                Picker("Proje Seç", selection: $selectedProjectToSave) {
-                    Text("Seç").tag(nil as Project?)
-                    ForEach(viewModel.projects) { project in
-                        HStack {
-                            Text(project.icon)
-                            Text(project.title)
-                        }.tag(project as Project?)
-                    }
-                }
-                .pickerStyle(.menu)
-                
-                if selectedProjectToSave != nil {
-                    TextField("Şablon Adı", text: $templateName)
-                        .textFieldStyle(.roundedBorder)
-                    
-                    Button("Şablon Olarak Kaydet") {
-                        if let project = selectedProjectToSave, !templateName.isEmpty {
-                            viewModel.saveAsTemplate(from: project, name: templateName)
-                            selectedProjectToSave = nil
-                            templateName = ""
-                        }
-                    }
-                    .disabled(templateName.isEmpty)
-                }
-            }
-            .padding()
-            .background(Color.adaptiveCardBackground.opacity(0.5))
-            .cornerRadius(8)
-            
-            // Close Button
-            HStack {
-                Spacer()
-                Button("Kapat") {
-                    isPresented = false
-                }
-                .keyboardShortcut(.escape)
-            }
-        }
-        .frame(width: 600, height: 600)
-        .padding()
-    }
-}
+// MARK: - Template Sheet (Kaldırıldı)
+// Şablon sistemi kaldırıldı

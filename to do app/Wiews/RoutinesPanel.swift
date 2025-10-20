@@ -32,7 +32,7 @@ struct RoutinesPanel: View {
                     
                     Spacer()
                     
-                    // Yeni Gün Butonu
+                    // Yeni Gün Butonu (Günde 1 kere)
                     Button(action: {
                         if !isWaitingForConfirmation {
                             // 1. Aşama: "Onayla" durumuna geç
@@ -58,10 +58,10 @@ struct RoutinesPanel: View {
                         }
                     }) {
                         HStack(spacing: 6) {
-                            Image(systemName: isResetting ? "checkmark.circle.fill" : (isWaitingForConfirmation ? "checkmark.circle" : "sunrise.fill"))
+                            Image(systemName: isResetting ? "checkmark.circle.fill" : (isWaitingForConfirmation ? "checkmark.circle" : (!viewModel.canResetToday() ? "lock.fill" : "sunrise.fill")))
                                 .font(.system(size: 14, weight: .medium))
                             
-                            Text(isResetting ? "Tamamlandı!" : (isWaitingForConfirmation ? "Onayla" : "Yeni Gün"))
+                            Text(isResetting ? "Tamamlandı!" : (isWaitingForConfirmation ? "Onayla" : (!viewModel.canResetToday() ? "Bugün Kullanıldı" : "Yeni Gün")))
                                 .font(.system(size: 13, weight: .medium))
                         }
                         .foregroundColor(.white)
@@ -69,11 +69,12 @@ struct RoutinesPanel: View {
                         .padding(.vertical, 6)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(isResetting ? Color.green : (isWaitingForConfirmation ? Color.orange : Color.blue))
+                                .fill(isResetting ? Color.green : (isWaitingForConfirmation ? Color.orange : (!viewModel.canResetToday() ? Color.gray : Color.blue)))
                         )
                     }
                     .buttonStyle(.plain)
-                    .disabled(viewModel.routines.isEmpty)
+                    .disabled(viewModel.routines.isEmpty || !viewModel.canResetToday())
+                    .help(!viewModel.canResetToday() ? "Yeni Gün butonu günde sadece 1 kere kullanılabilir" : "Tüm rutinleri sıfırla")
                 }
                 .padding()
             }

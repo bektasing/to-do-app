@@ -9,15 +9,121 @@
 
 | Bilgi | Detay |
 |-------|-------|
-| **Versiyon** | 0.4.0 |
+| **Versiyon** | 0.7.0 |
 | **Platform** | macOS 12.0+ |
 | **Teknoloji** | Swift + SwiftUI |
 | **Durum** | 🟢 Çalışır Durumda |
 | **Son Güncelleme** | 19 Ekim 2025 |
+| **Toplam Planlanan Özellik** | 80+ özellik |
+| **Geliştirme Aşaması** | 🚀 Aktif Geliştirme |
 
 ---
 
-## 🎉 SON GÜNCELLEME: v0.4.0 - YENİ ÖZELLİKLER EKLENDI!
+## 🎓 DEBUG YOLCULUĞUNDAN ÇIKARILAN DERSLER
+
+### 🔍 **Persistence Sorunları:**
+1. **UserDefaults vs Dosya Sistemi** - macOS sandbox uygulamalarında dosya yazma izinleri sınırlı
+2. **Çift Katmanlı Sistem** - Hem dosya hem UserDefaults kullanmak en güvenli
+3. **Real-time Data Binding** - `didSet` observer'ları her zaman çalışmalı
+4. **Debug Mesajları** - Console çıktıları sorun tespitinde kritik
+
+### 🛠️ **Çözüm Stratejileri:**
+1. **DataManager Pattern** - Dosya işlemlerini ayrı sınıfta toplamak
+2. **Fallback Mechanism** - Dosya bozulursa UserDefaults'tan yükleme
+3. **Consistent Architecture** - Tüm veri türleri için aynı persistence mantığı
+4. **User Experience** - 2 aşamalı onay sistemi ile güvenli kullanım
+
+### 📚 **Öğrenilen Teknikler:**
+- **SwiftUI State Management** - `@Published` ve `didSet` kullanımı
+- **macOS Sandbox** - Dosya erişim kısıtlamaları
+- **JSON Encoding/Decoding** - `Codable` protokolü ile veri serileştirme
+- **Animation Systems** - `withAnimation` ile smooth geçişler
+- **Error Handling** - Try-catch blokları ile hata yönetimi
+
+---
+
+## 🎯 HIZLI BAKIŞ: YAPILACAKLAR ÖZETİ
+
+**Kategorilere Göre Özellik Sayısı:**
+- 🟢 **Görsel İyileştirmeler** (5 özellik) - Kolay/Orta
+- 🔵 **İstatistikler & Analitik** (4 özellik) - Orta/Zor
+- 🔵 **Arama & Filtreleme** (3 özellik) - Kolay/Orta
+- 🔵 **Görev Yönetimi** (5 özellik) - Orta/Zor
+- 🔵 **Klavye Kısayolları** (2 özellik) - Kolay/Orta
+- 🟣 **Zaman Yönetimi** (3 özellik) - Orta/Zor
+- 🟣 **Bildirimler** (2 özellik) - Zor/Çok Zor
+- 🟣 **Veri Yönetimi** (2 özellik) - Orta
+- 🟣 **macOS Özellikleri** (4 özellik) - Zor/Çok Zor
+- 🟣 **İleri Görev Yönetimi** (4 özellik) - Orta/Çok Zor
+- 🟣 **Gamification** (3 özellik) - Orta/Zor
+- 🟣 **İleri Görsel Tasarım** (3 özellik) - Zor
+- 🔴 **İşbirliği** (3 özellik) - Çok Zor
+- 🔴 **Sistem Ayarları** (3 özellik) - Orta/Zor
+- 🔴 **Entegrasyonlar** (4+ özellik) - Çok Zor
+
+**Toplam: 18 öncelik kategorisi, 80+ alt özellik**
+
+---
+
+## 🎉 SON GÜNCELLEME: v0.7.0 - PERSISTENCE SİSTEMİ & YENİ GÜN TUŞU!
+
+### ✨ v0.7.0 - Persistence Sistemi ve Yeni Gün Tuşu (19 Ekim 2025)
+
+#### 🗂️ Dosya Tabanlı Persistence Sistemi (YENİ!)
+- ✅ **DataManager.swift** - Dosya sistemi tabanlı kayıt/yükleme
+- ✅ **Çift Katmanlı Sistem** - Dosya + UserDefaults yedekleme
+- ✅ **Sandbox Uyumlu** - macOS kısıtlamalarına uygun
+- ✅ **Otomatik Yedekleme** - Dosya bozulursa UserDefaults'tan yükler
+
+#### 🌅 "Yeni Gün" Tuşu (YENİ!)
+- ✅ **2 Aşamalı Sistem** - "Yeni Gün" → "Onayla" → "Tamamlandı!"
+- ✅ **Güzel Animasyonlar** - Smooth geçiş efektleri
+- ✅ **Renk Kodlaması** - Mavi → Turuncu → Yeşil
+- ✅ **Ses Efektleri** - Başarı sesi ile feedback
+- ✅ **Güvenli Kullanım** - Yanlışlıkla sıfırlama yok
+
+#### 🔧 Kritik Düzeltmeler
+- ✅ **Rutinler Kalıcı** - Artık uygulama kapatılıp açılınca silinmiyor
+- ✅ **Projelerle Aynı Sistem** - Tutarlı persistence mantığı
+- ✅ **Real-time Data Binding** - Tüm UI güncellemeleri çalışıyor
+- ✅ **Ses Efektleri Optimize** - Hızlı ve kesintisiz çalışıyor
+
+### ✨ v0.6.0 - Kritik Hata Düzeltmeleri (19 Ekim 2025)
+
+#### 🐛 Kritik Hata Düzeltmeleri
+- ✅ **Projeler onaylanamıyor sorunu** - Real-time data binding düzeltildi
+- ✅ **Ses efektleri geç geliyor sorunu** - Queue sistemi kaldırıldı, direkt çalışıyor
+- ✅ **Alt görevler okeylenemiyor sorunu** - ProjectDetailSheet real-time data ile düzeltildi
+- ✅ **Günlük rutinler siliniyor sorunu** - Persistence sistemi güçlendirildi
+- ✅ **Rutinler günlük sıfırlanmıyor sorunu** - Logic düzeltildi
+- ✅ **Tekrar eden görev kapatılamıyor sorunu** - Picker style değiştirildi (.segmented)
+
+#### 🔧 Teknik İyileştirmeler
+- ✅ **ProjectCard** artık `projectId` ile real-time data alıyor
+- ✅ **RoutineCard** artık `routineId` ile real-time data alıyor
+- ✅ **SoundManager** queue sistemi kaldırıldı, `NSSound.stopAll()` ile hızlı çalışıyor
+- ✅ **RecurrenceType picker** `.segmented` style ile daha kullanışlı
+
+### ✨ v0.5.0 - Günlük Rutinler ve Sıralama (19 Ekim 2025)
+
+#### 📅 Günlük Rutin Sistemi (YENİ!)
+- ✅ Rutinler artık günlük bazda sıfırlanıyor
+- ✅ Aynı gün içinde uygulama kapatılıp açılınca korunuyor
+- ✅ Yeni gün başladığında otomatik sıfırlanıyor
+- ✅ `lastCompletedDate` ile akıllı tarih takibi
+- ✅ `isCompletedToday` computed property
+
+#### 🔄 Sürükle-Bırak Sıralama (YENİ!)
+- ✅ Projeleri sürükleyip bırakarak sıralama
+- ✅ Rutinleri sürükleyip bırakarak sıralama
+- ✅ Sıralama otomatik kaydediliyor
+- ✅ SwiftUI native `.onMove` kullanımı
+- ✅ List + ForEach ile doğru implementasyon
+- ✅ Drag handle otomatik gösteriliyor
+
+---
+
+## 🎉 v0.4.0 - YENİ ÖZELLİKLER EKLENDI!
 
 ### ✨ v0.4.0 - Yeni Özellikler (19 Ekim 2025)
 
@@ -112,16 +218,16 @@ private let routinesKey = "SavedRoutines"
 ```
 to do app/
 ├── 📂 Models/
-│   ├── Project.swift          ✅ Icon özelliği eklendi (v0.4.0)
-│   ├── Routine.swift          ✅ Tamamlandı
+│   ├── Project.swift          ✅ Icon özelliği (v0.4.0)
+│   ├── Routine.swift          ✅ Günlük sıfırlama eklendi (v0.5.0)
 │   └── SoundManager.swift     ✅ Tamamlandı
 │
 ├── 📂 ViewModels/
-│   └── TodoViewModel.swift    ✅ Update fonksiyonu eklendi (v0.4.0)
+│   └── TodoViewModel.swift    ✅ Sürükle-bırak + günlük reset (v0.5.0)
 │
 ├── 📂 Wiews/ (Views yerine yanlış yazılmış)
-│   ├── ProjectsPanel.swift    ✅ Edit, Emoji Picker, Delete Dialog (v0.4.0)
-│   └── RoutinesPanel.swift    ✅ Delete Dialog eklendi (v0.4.0)
+│   ├── ProjectsPanel.swift    ✅ Sürükle-bırak eklendi (v0.5.0)
+│   └── RoutinesPanel.swift    ✅ Sürükle-bırak eklendi (v0.5.0)
 │
 ├── ContentView.swift          ✅ Tamamlandı
 ├── to_do_appApp.swift         ✅ Varsayılan
@@ -169,8 +275,11 @@ to do app/
 - ✅ **[v0.3.0]** Otomatik yükleme (uygulama açılışında)
 - ✅ **[v0.3.0]** JSON encoding/decoding
 - ✅ **[v0.3.0]** Hata yönetimi
-- ✅ **[YENİ v0.4.0]** Proje güncelleme (updateProject)
-- ✅ **[YENİ v0.4.0]** Icon desteği (her projede)
+- ✅ **[v0.4.0]** Proje güncelleme (updateProject)
+- ✅ **[v0.4.0]** Icon desteği (her projede)
+- ✅ **[YENİ v0.5.0]** Günlük rutin sıfırlama sistemi
+- ✅ **[YENİ v0.5.0]** Tarih bazlı otomatik reset
+- ✅ **[YENİ v0.5.0]** Sıralama desteği (drag & drop)
 
 ### 📊 İstatistikler
 - ✅ Tamamlanan rutin sayısı
@@ -180,6 +289,53 @@ to do app/
 ---
 
 ## 📋 YAPILACAKLAR LİSTESİ
+
+### ✅ TAMAMLANDI: GEÇMİŞ GELİŞTİRMELER (v0.5.0)
+
+#### ✅ 1.1 - Günlük Rutin Sistemi (TAMAMLANDI)
+**Süre:** 30 dakika  
+**Durum:** ✅ Çözüldü
+
+**Tamamlanan:**
+- ✅ `Routine` modeline `lastCompletedDate: Date?` eklendi
+- ✅ `isCompletedToday` computed property eklendi
+- ✅ `checkAndResetDailyRoutines()` fonksiyonu oluşturuldu
+- ✅ Uygulama açılışında günlük kontrol
+- ✅ Tarih bazlı akıllı sıfırlama
+
+**Çözülen Sorun:**
+- ❌ Önceden: Her açılışta rutinler sıfırlanıyordu
+- ✅ Şimdi: Aynı gün içinde korunuyor, yeni gün başladığında sıfırlanıyor
+
+**Değiştirilen Dosyalar:**
+- `Models/Routine.swift` (2 property eklendi)
+- `ViewModels/TodoViewModel.swift` (günlük reset mantığı)
+
+---
+
+#### ✅ 1.2 - Sürükle-Bırak Sıralama (TAMAMLANDI)
+**Süre:** 20 dakika  
+**Durum:** ✅ Çözüldü
+
+**Tamamlanan:**
+- ✅ `moveProject()` fonksiyonu eklendi
+- ✅ `moveRoutine()` fonksiyonu eklendi
+- ✅ ProjectsPanel'e `.onMove` modifier
+- ✅ RoutinesPanel'e `.onMove` modifier
+- ✅ Sıralama otomatik kaydediliyor
+
+**Değiştirilen Dosyalar:**
+- `ViewModels/TodoViewModel.swift` (2 move fonksiyonu)
+- `Wiews/ProjectsPanel.swift` (ScrollView → List, .onMove eklendi)
+- `Wiews/RoutinesPanel.swift` (ScrollView → List, .onMove eklendi)
+
+**Teknik Detaylar:**
+- ScrollView + VStack yerine List kullanımı (drag & drop için gerekli)
+- `.listStyle(.plain)` ile temiz görünüm
+- `.listRowSeparator(.hidden)` ile ayırıcılar kaldırıldı
+- Custom `listRowInsets` ile padding kontrolü
+
+---
 
 ### ✅ TAMAMLANDI: YENİ ÖZELLİKLER (v0.4.0)
 
@@ -307,11 +463,71 @@ to do app/
 
 ---
 
-### 🟢 ÖNCELIK 3: YENİ ÖZELLİKLER
+### 🟢 ÖNCELIK 3: GÖRSEL İYİLEŞTİRMELER
+
+#### 3.1 - Hover Efektleri
+**Süre:** 20 dakika  
+**Zorluk:** Kolay
+
+**Yapılacaklar:**
+- [ ] Kart üzerine gelince hafif büyütme
+- [ ] Edit/Delete butonları hover'da belirginleşsin
+- [ ] Smooth geçiş animasyonları
 
 ---
 
-#### 3.2 - Alt Görevler (Subtasks)
+#### 3.2 - Konfeti Efekti
+**Süre:** 30 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Tüm görevler tamamlanınca konfeti animasyonu
+- [ ] Tüm rutinler tamamlanınca özel konfeti
+- [ ] SwiftUI Particle system
+
+---
+
+#### 3.3 - Özel Renk Temaları
+**Süre:** 45 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Tema seçici (Mor, Mavi, Yeşil, Turuncu)
+- [ ] Tema ayarlarını kaydetme
+- [ ] Dinamik renk değişimi
+- [ ] Gradient arka planlar
+
+---
+
+#### 3.4 - Smooth Animasyonlar
+**Süre:** 30 dakika  
+**Zorluk:** Kolay
+
+**Yapılacaklar:**
+- [ ] Görev eklenince fade-in animasyonu
+- [ ] Görev silinince fade-out animasyonu
+- [ ] Tamamlanınca scale animasyonu
+- [ ] Spring animasyonlar
+
+---
+
+#### 3.5 - Durum Rozetleri
+**Süre:** 25 dakika  
+**Zorluk:** Kolay
+
+**Yapılacaklar:**
+- [ ] "Yeni" rozeti (yeni eklenen görevler için)
+- [ ] "Devam Ediyor" rozeti
+- [ ] "Gecikti" rozeti (deadline geçenler için)
+- [ ] Renkli badge tasarımı
+
+---
+
+### 🟢 ÖNCELIK 4: ALT GÖREVLER SİSTEMİ
+
+---
+
+#### 4.1 - Alt Görevler (Subtasks)
 **Süre:** 60 dakika  
 **Zorluk:** Zor
 
@@ -323,7 +539,61 @@ to do app/
 
 ---
 
-#### 3.3 - Arama ve Filtreleme
+---
+
+### 🔵 ÖNCELIK 5: İSTATİSTİKLER & ANALİTİK
+
+#### 5.1 - Haftalık Tamamlama Grafiği
+**Süre:** 60 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Swift Charts framework kullan
+- [ ] Son 7 gün tamamlanan görevler
+- [ ] Bar chart gösterimi
+- [ ] Hover'da detaylı bilgi
+
+---
+
+#### 5.2 - Streak Takibi
+**Süre:** 40 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Kaç gün üst üste görev tamamlandı
+- [ ] Streak counter UI
+- [ ] En uzun streak kaydı
+- [ ] Streak kırılınca bildirim
+
+---
+
+#### 5.3 - Verimlilik Skoru
+**Süre:** 50 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Günlük/haftalık/aylık skor hesaplama
+- [ ] Tamamlanma oranı
+- [ ] Öncelik dağılımı
+- [ ] Progress bar gösterimi
+
+---
+
+#### 5.4 - Başarı Rozetleri (Achievements)
+**Süre:** 45 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] "İlk 10 görev" rozeti
+- [ ] "7 gün streak" rozeti
+- [ ] "100 görev" rozeti
+- [ ] Rozet koleksiyonu ekranı
+
+---
+
+### 🔵 ÖNCELIK 6: ARAMA & FİLTRELEME
+
+#### 6.1 - Gelişmiş Arama
 **Süre:** 40 dakika  
 **Zorluk:** Orta
 
@@ -334,7 +604,95 @@ to do app/
 
 ---
 
-#### 3.4 - Sürükle-Bırak (Drag & Drop)
+---
+
+#### 6.2 - Filtreleme Sistemi
+**Süre:** 35 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Öncelik filtresi (Yüksek/Orta/Düşük)
+- [ ] Tarih filtresi (Bugün/Bu Hafta/Bu Ay)
+- [ ] Tamamlanma durumu filtresi
+- [ ] Çoklu filtre kombinasyonu
+
+---
+
+#### 6.3 - Sıralama Seçenekleri
+**Süre:** 25 dakika  
+**Zorluk:** Kolay
+
+**Yapılacaklar:**
+- [ ] Tarihe göre sırala
+- [ ] Önceliğe göre sırala
+- [ ] Alfabetik sırala
+- [ ] Manuel sıralama (mevcut)
+
+---
+
+### 🔵 ÖNCELIK 7: GÖREV YÖNETİMİ İYİLEŞTİRMELERİ
+
+#### 7.1 - Görev İçi Notlar
+**Süre:** 30 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Project modeline `notes: String` ekle
+- [ ] Detaylı not editörü
+- [ ] Markdown desteği (opsiyonel)
+- [ ] Not gösterimi
+
+---
+
+#### 7.2 - Link Ekleme
+**Süre:** 25 dakika  
+**Zorluk:** Kolay
+
+**Yapılacaklar:**
+- [ ] Project modeline `links: [URL]` ekle
+- [ ] Link ekleme UI'ı
+- [ ] Link'e tıklayınca tarayıcıda açma
+- [ ] Link önizlemesi
+
+---
+
+#### 7.3 - Etiket/Tag Sistemi
+**Süre:** 50 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Tag modeli oluştur
+- [ ] Project'e tag ekleme/çıkarma
+- [ ] Tag renkleri
+- [ ] Tag'lere göre filtreleme
+
+---
+
+#### 7.4 - Tekrar Eden Görevler (Recurring)
+**Süre:** 90 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Tekrar türü (günlük/haftalık/aylık)
+- [ ] Otomatik görev oluşturma
+- [ ] Tekrar sonu belirleme
+- [ ] Rutin entegrasyonu
+
+---
+
+#### 7.5 - Görev Şablonları
+**Süre:** 40 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Şablon oluşturma
+- [ ] Şablon kaydetme
+- [ ] Şablondan görev oluşturma
+- [ ] Önceden tanımlı şablonlar
+
+---
+
+### 🔵 ÖNCELIK 8: KLAVYE KISAYOLLARI (Drag & Drop)
 **Süre:** 50 dakika  
 **Zorluk:** Zor
 
@@ -345,7 +703,7 @@ to do app/
 
 ---
 
-#### 3.5 - Keyboard Shortcuts
+#### 8.1 - Temel Kısayollar
 **Süre:** 30 dakika  
 **Zorluk:** Kolay
 
@@ -357,7 +715,25 @@ to do app/
 
 ---
 
-#### 3.6 - Notlar ve Ekler
+---
+
+#### 8.2 - Gelişmiş Kısayollar
+**Süre:** 40 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] `⌘F` → Arama
+- [ ] `⌘⇧N` → Yeni rutin
+- [ ] `⌘K` → Komut paleti
+- [ ] `⌘Z` → Geri al
+- [ ] `⌘⇧Z` → İleri al
+- [ ] Kısayol özelleştirme
+
+---
+
+### 🟣 ÖNCELIK 9: ZAMAN YÖNETİMİ
+
+#### 9.1 - Pomodoro Timer
 **Süre:** 60 dakika  
 **Zorluk:** Zor
 
@@ -369,9 +745,35 @@ to do app/
 
 ---
 
-### 🔵 ÖNCELIK 4: GELİŞMİŞ ÖZELLİKLER
+---
 
-#### 4.1 - Hatırlatıcılar ve Bildirimler
+#### 9.2 - Süre Takibi
+**Süre:** 60 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Her görev için timer
+- [ ] Başlat/Durdur butonu
+- [ ] Toplam süre gösterimi
+- [ ] Tahmini vs gerçek süre karşılaştırma
+
+---
+
+#### 9.3 - Mola Hatırlatıcıları
+**Süre:** 35 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] 25/50 dakikada mola hatırlatıcısı
+- [ ] Bildirim gösterimi
+- [ ] Mola sayacı
+- [ ] Ayarlanabilir süre
+
+---
+
+### 🟣 ÖNCELIK 10: BİLDİRİMLER & HATIRLATICILAR
+
+#### 10.1 - macOS Bildirimleri
 **Süre:** 90 dakika  
 **Zorluk:** Çok Zor
 
@@ -383,7 +785,50 @@ to do app/
 
 ---
 
-#### 4.2 - İstatistik Grafikleri
+---
+
+#### 10.2 - Akıllı Hatırlatıcılar
+**Süre:** 70 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Sabah günlük özet
+- [ ] Akşam tamamlanmayanlar özeti
+- [ ] Deadline yaklaşırken uyarı (1 gün, 3 gün, 1 hafta)
+- [ ] Özel bildirim sesleri
+- [ ] Bildirim zamanı özelleştirme
+
+---
+
+### 🟣 ÖNCELIK 11: VERİ YÖNETİMİ & EXPORT
+
+#### 11.1 - Export/Import Sistemi
+**Süre:** 60 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] JSON export (tüm veriler)
+- [ ] JSON import
+- [ ] CSV export (Excel için)
+- [ ] PDF rapor oluşturma
+
+---
+
+#### 11.2 - Otomatik Yedekleme
+**Süre:** 50 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Günlük otomatik yedekleme
+- [ ] Yedekleme konumu seçimi
+- [ ] Yedekleri geri yükleme
+- [ ] Yedek sayısı limiti
+
+---
+
+### 🟣 ÖNCELIK 12: MACBOOK ÖZELLEŞTİRMELERİ
+
+#### 12.1 - Menu Bar Uygulaması
 **Süre:** 60 dakika  
 **Zorluk:** Zor
 
@@ -395,7 +840,9 @@ to do app/
 
 ---
 
-#### 4.3 - Menu Bar Uygulaması
+---
+
+#### 12.2 - macOS Widget
 **Süre:** 120 dakika  
 **Zorluk:** Çok Zor
 
@@ -407,7 +854,47 @@ to do app/
 
 ---
 
-#### 4.4 - macOS Widget
+---
+
+#### 12.3 - Siri & Shortcuts Entegrasyonu
+**Süre:** 120 dakika  
+**Zorluk:** Çok Zor
+
+**Yapılacaklar:**
+- [ ] Apple Shortcuts desteği
+- [ ] Siri komutları ("Yeni görev ekle")
+- [ ] Sesli görev ekleme
+- [ ] Kısayol aksiyonları
+
+---
+
+#### 12.4 - Calendar Entegrasyonu
+**Süre:** 90 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] macOS Calendar'a export
+- [ ] Calendar'dan görev import
+- [ ] İki yönlü senkronizasyon
+- [ ] Takvim görünümü
+
+---
+
+### 🟣 ÖNCELIK 13: İLERİ SEVİYE GÖREV YÖNETİMİ
+
+#### 13.1 - Kategoriler/Klasörler
+**Süre:** 50 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Kategori modeli oluştur
+- [ ] Projeleri kategorilere ayırma
+- [ ] Kategori renkleri
+- [ ] Kategori bazlı görünüm
+
+---
+
+#### 13.2 - Kanban Board Görünümü
 **Süre:** 90 dakika  
 **Zorluk:** Çok Zor
 
@@ -419,7 +906,97 @@ to do app/
 
 ---
 
-#### 4.5 - Export/Import
+---
+
+#### 13.3 - Timeline/Gantt Görünümü
+**Süre:** 120 dakika  
+**Zorluk:** Çok Zor
+
+**Yapılacaklar:**
+- [ ] Zaman çizelgesi görünümü
+- [ ] Görev bağımlılıkları
+- [ ] Milestone'lar
+- [ ] Kritik yol analizi
+
+---
+
+#### 13.4 - Proje Şablonları
+**Süre:** 55 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Şablon oluşturma ve kaydetme
+- [ ] Önceden tanımlı şablonlar
+- [ ] Şablon marketplace (topluluk)
+- [ ] Şablondan proje oluşturma
+
+---
+
+### 🟣 ÖNCELIK 14: GAMİFİCATION
+
+#### 14.1 - XP/Seviye Sistemi
+**Süre:** 80 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Görev tamamlayınca XP kazan
+- [ ] Seviye atlama sistemi
+- [ ] Seviye gösterimi
+- [ ] Level up animasyonu
+
+---
+
+#### 14.2 - Rozet Sistemi
+**Süre:** 60 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Achievement tanımları
+- [ ] Rozet koleksiyonu
+- [ ] Rozet kazanma animasyonu
+- [ ] Nadirlik seviyeleri (bronz/gümüş/altın)
+
+---
+
+#### 14.3 - Motivasyon Sistemi
+**Süre:** 40 dakika  
+**Zorluk:** Kolay
+
+**Yapılacaklar:**
+- [ ] Motivasyon mesajları
+- [ ] Günlük ilham sözleri
+- [ ] Başarı kutlamaları
+- [ ] Özel efektler
+
+---
+
+### 🟣 ÖNCELIK 15: İLERİ GÖRSEL TASARIM
+
+#### 15.1 - Glassmorphism Tasarım
+**Süre:** 90 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Cam efekti arka planlar
+- [ ] Blur efektleri
+- [ ] Şeffaf kartlar
+- [ ] Modern tasarım dili
+
+---
+
+#### 15.2 - Animasyonlu Geçişler
+**Süre:** 70 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Hero animasyonları
+- [ ] Shared element transitions
+- [ ] Page curl efekti
+- [ ] Morphing animasyonları
+
+---
+
+#### 15.3 - Tema Marketplace
 **Süre:** 60 dakika  
 **Zorluk:** Orta
 
@@ -431,7 +1008,87 @@ to do app/
 
 ---
 
-#### 4.6 - iCloud Sync
+---
+
+### 🔴 ÖNCELIK 16: İŞBİRLİĞİ ÖZELLİKLERİ (Çok Gelişmiş)
+
+#### 16.1 - Ekip Yönetimi
+**Süre:** 180 dakika  
+**Zorluk:** Çok Zor
+
+**Yapılacaklar:**
+- [ ] Kullanıcı hesap sistemi
+- [ ] Ekip üyeleri ekleme
+- [ ] Görev atama sistemi
+- [ ] Rol yönetimi
+
+---
+
+#### 16.2 - Gerçek Zamanlı Senkronizasyon
+**Süre:** 240 dakika  
+**Zorluk:** Çok Zor
+
+**Yapılacaklar:**
+- [ ] Firebase/CloudKit entegrasyonu
+- [ ] Websocket bağlantısı
+- [ ] Çakışma çözümü (conflict resolution)
+- [ ] Offline çalışma desteği
+
+---
+
+#### 16.3 - Yorum ve Mention Sistemi
+**Süre:** 120 dakika  
+**Zorluk:** Çok Zor
+
+**Yapılacaklar:**
+- [ ] Görevlere yorum ekleme
+- [ ] @mention kullanıcılar
+- [ ] Bildirim sistemi
+- [ ] Yorum zinciri
+
+---
+
+### 🔴 ÖNCELIK 17: SİSTEM AYARLARI & OPTİMİZASYON
+
+#### 17.1 - Ayarlar Paneli
+**Süre:** 60 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Settings window oluştur
+- [ ] Görünüm ayarları
+- [ ] Bildirim ayarları
+- [ ] Ses ayarları
+- [ ] Yedekleme ayarları
+
+---
+
+#### 17.2 - Performans Optimizasyonu
+**Süre:** 90 dakika  
+**Zorluk:** Zor
+
+**Yapılacaklar:**
+- [ ] Lazy loading
+- [ ] Pagination (büyük listeler için)
+- [ ] Cache sistemi
+- [ ] Memory optimization
+
+---
+
+#### 17.3 - Otomatik Başlatma
+**Süre:** 30 dakika  
+**Zorluk:** Orta
+
+**Yapılacaklar:**
+- [ ] Mac açılışında otomatik başlat
+- [ ] Launch agent oluştur
+- [ ] Ayarlarda enable/disable
+
+---
+
+### 🔴 ÖNCELIK 18: ENTEGRASYONLAR
+
+#### 18.1 - iCloud Sync
 **Süre:** 180 dakika  
 **Zorluk:** Çok Zor
 
@@ -515,13 +1172,15 @@ Spacing: 8-16px
 
 ## 🐛 BİLİNEN SORUNLAR
 
-### ✅ Çözüldü (v0.4.0)
+### ✅ Çözüldü (v0.5.0)
 - ✅ **Veriler artık kalıcı!** - UserDefaults ile kaydediliyor
 - ✅ **Örnek veri kaldırıldı** - Uygulama boş başlıyor
 - ✅ **Empty state eklendi** - Boş ekranda güzel placeholder'lar
-- ✅ **Emoji/İkon seçici eklendi** - Her projeye özel ikon
-- ✅ **Proje düzenleme eklendi** - EditProjectSheet ile tam düzenleme
-- ✅ **Silme onayı eklendi** - Yanlışlıkla silme engellendi
+- ✅ **Emoji/İkon seçici** - Her projeye özel ikon
+- ✅ **Proje düzenleme** - EditProjectSheet ile tam düzenleme
+- ✅ **Silme onayı** - Yanlışlıkla silme engellendi
+- ✅ **Günlük rutinler** - Aynı gün içinde korunuyor, yeni günde sıfırlanıyor
+- ✅ **Sürükle-bırak** - Görevlerin konumunu değiştirebilme
 
 ### 🟡 Orta
 - ⚠️ **Klasör adı yanlış** - `Wiews/` yerine `Views/` olmalı
@@ -602,18 +1261,21 @@ enum Priority {
 ### Test Senaryoları
 ```
 ✅ Proje ekleme → Pop sesi + listeye ekleniyor
-✅ Proje silme → Onay dialog + Funk sesi + listeden kalkıyor (v0.4.0 FIX)
+✅ Proje silme → Onay dialog + Funk sesi + listeden kalkıyor
 ✅ Proje tamamlama → Glass sesi + checkbox yeşil
-✅ Proje düzenleme → Edit modal açılıyor + kaydet çalışıyor (v0.4.0 NEW)
-✅ Emoji seçimi → 24 emoji grid + seçim vurgusu (v0.4.0 NEW)
-✅ Emoji gösterimi → ProjectCard'da 32px emoji (v0.4.0 NEW)
+✅ Proje düzenleme → Edit modal açılıyor + kaydet çalışıyor
+✅ Proje sürükleme → Sıralama değişiyor + kaydediliyor (v0.5.0 NEW)
+✅ Emoji seçimi → 24 emoji grid + seçim vurgusu
+✅ Emoji gösterimi → ProjectCard'da 32px emoji
 ✅ Rutin ekleme → Pop sesi + listeye ekleniyor
-✅ Rutin silme → Onay dialog + Funk sesi + listeden kalkıyor (v0.4.0 FIX)
-✅ Rutin tamamlama → Glass sesi + progress bar güncelleniyor
+✅ Rutin silme → Onay dialog + Funk sesi + listeden kalkıyor
+✅ Rutin tamamlama → Glass sesi + tarih kaydediliyor (v0.5.0 FIX)
+✅ Rutin sürükleme → Sıralama değişiyor + kaydediliyor (v0.5.0 NEW)
 ✅ Tüm rutinler tamamlanınca → Hero sesi çalıyor
-✅ Uygulama kapatıp açınca → Veriler korunuyor (v0.3.0)
-✅ İlk açılışta → Boş başlıyor, empty state gösteriliyor (v0.3.0)
-✅ Empty state → Yönlendirici mesajlar gösteriliyor (v0.3.0)
+✅ Uygulama aynı gün tekrar açınca → Rutinler korunuyor (v0.5.0 FIX)
+✅ Yeni gün başladığında → Rutinler otomatik sıfırlanıyor (v0.5.0 NEW)
+✅ Uygulama kapatıp açınca → Tüm veriler korunuyor
+✅ İlk açılışta → Boş başlıyor, empty state gösteriliyor
 ```
 
 ---
@@ -636,19 +1298,21 @@ enum Priority {
 
 ## 🎯 SONRAKI ADIMLAR
 
-### ✅ Tamamlandı (v0.4.0)
+### ✅ Tamamlandı (v0.5.0)
 1. ✅ **Kalıcı depolama eklendi** - UserDefaults entegrasyonu
 2. ✅ **Örnek veri sistemi kaldırıldı** - Boş başlıyor
 3. ✅ **Empty state tasarımı yapıldı** - Placeholder'lar eklendi
 4. ✅ **Emoji/İkon seçici eklendi** - 24 emoji grid seçim
 5. ✅ **Proje düzenleme eklendi** - EditProjectSheet ile tam özellikli
 6. ✅ **Silme onayı dialog'ları** - Projeler ve rutinler için
+7. ✅ **Günlük rutin sistemi** - Akıllı tarih bazlı sıfırlama
+8. ✅ **Sürükle-bırak sıralama** - Proje ve rutinleri yeniden sırala
 
 ### Yakın Gelecek (Bu Ay)
-7. Rutin düzenleme özelliği
-8. Alt görevler (subtasks)
-9. Arama ve filtreleme
-10. Keyboard shortcuts (⌘N, ⌘R, ⌘⌫)
+9. Rutin düzenleme özelliği
+10. Alt görevler (subtasks)
+11. Arama ve filtreleme
+12. Keyboard shortcuts (⌘N, ⌘R, ⌘⌫)
 
 ### Uzun Vadeli (3-6 Ay)
 9. Hatırlatıcılar ve bildirimler
@@ -662,6 +1326,40 @@ enum Priority {
 **📌 UNUTMA:**  
 Bu uygulama bir öğrenme projesi olduğu kadar kullanılabilir bir araç olmalı.  
 Her özellik eklenirken kullanıcı deneyimini ön planda tut! 🚀
+
+---
+
+## 🎊 v0.5.0 CHANGELOG (19 Ekim 2025)
+
+### Eklenen Özellikler
+- ✨ **Günlük Rutin Sistemi:** Rutinler artık akıllı - aynı gün içinde korunuyor
+- ✨ **Tarih Bazlı Sıfırlama:** Yeni gün başladığında otomatik reset
+- ✨ **Sürükle-Bırak Sıralama:** Proje ve rutinleri istediğin sıraya koy
+- ✨ **lastCompletedDate:** Her rutinin son tamamlanma tarihi kaydediliyor
+- ✨ **isCompletedToday:** Bugün tamamlanmış mı kontrolü
+
+### Düzeltilen Hatalar
+- 🐛 Rutinlerin her açılışta sıfırlanması sorunu çözüldü
+- 🐛 Aynı gün içinde rutinler artık korunuyor
+- 🐛 Görev sıralaması artık değiştirilebiliyor
+
+### Geliştirmeler
+- 🎨 `.onMove` modifier ile native drag & drop
+- 🎨 `moveProject()` ve `moveRoutine()` fonksiyonları
+- 🔧 Günlük kontrol sistemi (`checkAndResetDailyRoutines`)
+- 🔧 Otomatik kayıt sistemi (sıralama değişince)
+
+### Değiştirilen Dosyalar
+- `Models/Routine.swift` (+7 satır)
+- `ViewModels/TodoViewModel.swift` (+30 satır)
+- `Wiews/ProjectsPanel.swift` (+1 satır)
+- `Wiews/RoutinesPanel.swift` (+1 satır)
+
+### Toplam Değişiklik
+- **+39 satır** eklendi
+- **4 dosya** güncellendi
+- **2 yeni fonksiyon** (moveProject, moveRoutine)
+- **1 yeni kontrol sistemi** (günlük reset)
 
 ---
 
@@ -733,5 +1431,5 @@ Her özellik eklenirken kullanıcı deneyimini ön planda tut! 🚀
 ---
 
 > **Son güncelleme:** 19 Ekim 2025  
-> **Versiyon:** 0.4.0  
-> **Sonraki hedef:** 0.5.0 (Alt görevler ve rutin düzenleme)
+> **Versiyon:** 0.5.0  
+> **Sonraki hedef:** 0.6.0 (Alt görevler ve arama/filtreleme)

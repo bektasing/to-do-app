@@ -8,24 +8,51 @@
 import AVFoundation
 import AppKit
 
-class SoundManager {
+class SoundManager: NSObject {
     static let shared = SoundManager()
     
-    private init() {}
+    private var soundQueue: [NSSound] = []
+    private var isPlaying = false
+    
+    private override init() {
+        super.init()
+    }
+    
+    private func playSound(named name: String) {
+        guard let sound = NSSound(named: name) else { return }
+        
+        // Önceki sesi durdur ve yeni sesi çal
+        stopAllSounds()
+        sound.play()
+    }
+    
+    private func stopAllSounds() {
+        // Tüm sesleri durdur - NSSound'ta stopAll() yok, queue'yu temizle
+        soundQueue.removeAll()
+        isPlaying = false
+    }
     
     func playTaskCompleteSound() {
-        NSSound(named: "Glass")?.play()
+        playSound(named: "Glass")
     }
     
     func playTaskAddSound() {
-        NSSound(named: "Pop")?.play()
+        playSound(named: "Pop")
     }
     
     func playTaskDeleteSound() {
-        NSSound(named: "Funk")?.play()
+        playSound(named: "Funk")
     }
     
     func playSuccessSound() {
-        NSSound(named: "Hero")?.play()
+        playSound(named: "Hero")
     }
 }
+
+// Delegate extension
+// MARK: - NSSoundDelegate (Artık gerekli değil)
+// extension SoundManager: NSSoundDelegate {
+//     func sound(_ sound: NSSound, didFinishPlaying flag: Bool) {
+//         // Artık queue sistemi kullanmıyoruz
+//     }
+// }

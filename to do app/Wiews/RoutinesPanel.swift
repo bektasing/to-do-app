@@ -9,6 +9,8 @@ import SwiftUI
 struct RoutinesPanel: View {
     @ObservedObject var viewModel: TodoViewModel
     @State private var newRoutineTitle = ""
+    @State private var isResetting = false
+    @State private var isWaitingForConfirmation = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -25,6 +27,51 @@ struct RoutinesPanel: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
+                    
+                    Spacer()
+                    
+                    // Yeni Gün Butonu
+                    Button(action: {
+                        if !isWaitingForConfirmation {
+                            // 1. Aşama: "Onayla" durumuna geç
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                isWaitingForConfirmation = true
+                            }
+                        } else {
+                            // 2. Aşama: Gerçekten sıfırla
+                            viewModel.resetAllRoutines()
+                            
+                            // Animasyon göster
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                isResetting = true
+                            }
+                            
+                            // 1 saniye sonra normale dön
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    isResetting = false
+                                    isWaitingForConfirmation = false
+                                }
+                            }
+                        }
+                    }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: isResetting ? "checkmark.circle.fill" : (isWaitingForConfirmation ? "checkmark.circle" : "sunrise.fill"))
+                                .font(.system(size: 14, weight: .medium))
+                            
+                            Text(isResetting ? "Tamamlandı!" : (isWaitingForConfirmation ? "Onayla" : "Yeni Gün"))
+                                .font(.system(size: 13, weight: .medium))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(isResetting ? Color.green : (isWaitingForConfirmation ? Color.orange : Color.blue))
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(viewModel.routines.isEmpty)
                 }
                 .padding()
             }
@@ -32,42 +79,44 @@ struct RoutinesPanel: View {
             
             Divider()
             
-            // Content
-            ScrollView {
-                VStack(spacing: 12) {
-                    // Add Input
-                    HStack {
-                        TextField("Yeni rutin ekle...", text: $newRoutineTitle)
-                            .textFieldStyle(.roundedBorder)
-                        
-                        Button(action: addRoutine) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.title2)
-                        }
-                        .buttonStyle(.plain)
-                        .disabled(newRoutineTitle.isEmpty)
-                    }
-                    .padding(.horizontal)
-                    
-                    // Routines List veya Empty State
-                    if viewModel.routines.isEmpty {
-                        // Empty State
-                        EmptyRoutinesView()
-                            .padding(.horizontal)
-                            .padding(.top, 20)
-                    } else {
-                        // Routines List
-                        ForEach(viewModel.routines) { routine in
-                            RoutineCard(routine: routine, viewModel: viewModel)
-                        }
-                        .padding(.horizontal)
-                        
-                        // Stats Card
-                        StatsCard(viewModel: viewModel)
-                            .padding()
-                    }
+            // Add Input (Fixed)
+            HStack {
+                TextField("Yeni rutin ekle...", text: $newRoutineTitle)
+                    .textFieldStyle(.roundedBorder)
+                
+                Button(action: addRoutine) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title2)
                 }
-                .padding(.vertical)
+                .buttonStyle(.plain)
+                .disabled(newRoutineTitle.isEmpty)
+            }
+            .padding()
+            .background(Color(NSColor.windowBackgroundColor).opacity(0.3))
+            
+            // Routines List veya Empty State (Scrollable)
+            if viewModel.routines.isEmpty {
+                // Empty State
+                EmptyRoutinesView()
+                    .padding(.horizontal)
+                    .padding(.top, 20)
+                    .frame(maxHeight: .infinity)
+            } else {
+                // Routines List with Drag & Drop
+                List {
+                    ForEach(viewModel.routines) { routine in
+                        RoutineCard(routineId: routine.id, viewModel: viewModel)
+                            .listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12))
+                            .listRowSeparator(.hidden)
+                    }
+                    .onMove(perform: viewModel.moveRoutine)
+                    
+                    // Stats Card
+                    StatsCard(viewModel: viewModel)
+                        .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
+                        .listRowSeparator(.hidden)
+                }
+                .listStyle(.plain)
             }
         }
         .background(Color(NSColor.windowBackgroundColor).opacity(0.3))
@@ -81,9 +130,14 @@ struct RoutinesPanel: View {
 }
 
 struct RoutineCard: View {
-    let routine: Routine
+    let routineId: UUID
     @ObservedObject var viewModel: TodoViewModel
     @State private var showingDeleteAlert = false
+    
+    // Real-time routine data
+    private var routine: Routine {
+        viewModel.routines.first(where: { $0.id == routineId }) ?? Routine(title: "Bulunamadı")
+    }
     
     var body: some View {
         HStack(spacing: 12) {
@@ -112,8 +166,10 @@ struct RoutineCard: View {
             .buttonStyle(.plain)
         }
         .padding()
-        .background(Color(NSColor.controlBackgroundColor))
-        .cornerRadius(8)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color(NSColor.controlBackgroundColor))
+        )
         .confirmationDialog(
             "Bu rutini silmek istediğinizden emin misiniz?",
             isPresented: $showingDeleteAlert,
@@ -193,7 +249,9 @@ struct StatsCard: View {
             .frame(height: 8)
         }
         .padding()
-        .background(Color(NSColor.controlBackgroundColor))
-        .cornerRadius(12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(NSColor.controlBackgroundColor))
+        )
     }
 }

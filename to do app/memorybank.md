@@ -9,7 +9,7 @@
 
 | Bilgi | Detay |
 |-------|-------|
-| **Versiyon** | 0.7.0 |
+| **Versiyon** | 0.8.0 |
 | **Platform** | macOS 12.0+ |
 | **Teknoloji** | Swift + SwiftUI |
 | **Durum** | 🟢 Çalışır Durumda |
@@ -1430,6 +1430,64 @@ Her özellik eklenirken kullanıcı deneyimini ön planda tut! 🚀
 
 ---
 
+## 🎊 v0.8.0 CHANGELOG (19 Ekim 2025)
+
+### 🎉 Yeni Özellikler
+- ✅ **Konfeti Animasyonu:** Rutin tamamlandığında konfeti patlar (StatsCard'dan yukarıya)
+- ✅ **Gelişmiş Ses Sistemi:** AVAudioPlayer ile smooth ses efektleri
+- ✅ **Haptic Feedback:** Tüm checkbox'larda dokunsal geri bildirim
+- ✅ **Manuel Tema Seçimi:** Aydınlık/Karanlık mod (sistem algılama kaldırıldı)
+- ✅ **Ayarlar Sayfası:** Tam özellikli preferences paneli
+- ✅ **Ses Kontrolü:** Ayarlardan ses efektlerini açma/kapama
+- ✅ **Tema-Aware UI:** Gölgeler ve renkler tema göre değişir
+
+### 🔧 Teknik İyileştirmeler
+- **ThemeManager:** Manuel tema yönetimi sistemi
+- **SoundManager:** AVAudioPlayer + NSSoundDelegate entegrasyonu
+- **ConfettiView:** Custom SwiftUI animasyon sistemi
+- **SettingsView:** macOS-optimized ayarlar arayüzü
+- **Haptic Feedback:** NSHapticFeedbackManager entegrasyonu
+
+### 🎨 UI/UX Geliştirmeleri
+- **Adaptive Colors:** Tema göre değişen renk sistemi
+- **Conditional Shadows:** Sadece aydınlık modda gölgeler
+- **Smooth Animations:** Konfeti ve ses geçişleri
+- **Clean Settings:** Modern ayarlar sayfası tasarımı
+- **Better Feedback:** Her etkileşimde haptic + ses
+
+### 🐛 Düzeltilen Hatalar
+- 🐛 Sistem tema algılama sorunları tamamen çözüldü
+- 🐛 Ayarlar paneli kapanma sorunu düzeltildi
+- 🐛 Ses efektlerinin smooth olmaması sorunu çözüldü
+- 🐛 Tema değişikliklerinin anında uygulanmaması düzeltildi
+
+### 📁 Yeni Dosyalar
+- `Models/ThemeManager.swift` (109 satır) - Tema yönetimi
+- `Wiews/ConfettiView.swift` (79 satır) - Konfeti animasyonu
+- `Wiews/SettingsView.swift` (311 satır) - Ayarlar sayfası
+
+### 🔄 Güncellenen Dosyalar
+- `Models/SoundManager.swift` - AVAudioPlayer entegrasyonu
+- `ViewModels/TodoViewModel.swift` - Haptic feedback + ses kontrolü
+- `Wiews/RoutinesPanel.swift` - Konfeti overlay + tema desteği
+- `Wiews/ProjectsPanel.swift` - Tema-aware gölgeler
+- `ContentView.swift` - SettingsView entegrasyonu
+- `to_do_appApp.swift` - ThemeManager injection
+
+### 📊 İstatistikler
+- **+675 satır** eklendi
+- **-52 satır** silindi
+- **9 dosya** değiştirildi
+- **3 yeni dosya** oluşturuldu
+- **Commit Hash:** be0f6c6
+
+### 🎯 Sonraki Hedefler
+- **v0.9.0:** Arama ve filtreleme sistemi
+- **v1.0.0:** Alt görevler ve proje hiyerarşisi
+- **v1.1.0:** İstatistikler ve analitik dashboard
+
+---
+
 > **Son güncelleme:** 19 Ekim 2025  
-> **Versiyon:** 0.5.0  
-> **Sonraki hedef:** 0.6.0 (Alt görevler ve arama/filtreleme)
+> **Versiyon:** 0.8.0  
+> **Sonraki hedef:** 0.9.0 (Arama ve filtreleme)

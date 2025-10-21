@@ -7,6 +7,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import WidgetKit
 
 // Notification names
 extension Notification.Name {
@@ -46,6 +47,9 @@ class TodoViewModel: ObservableObject {
     // StatisticsManager instance
     let statisticsManager = StatisticsManager()
     
+    // NotificationManager instance
+    let notificationManager = NotificationManager.shared
+    
     // DataManager instance
     private let dataManager = DataManager.shared
     
@@ -73,6 +77,11 @@ class TodoViewModel: ObservableObject {
         projects.append(newProject)
         playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
         SoundManager.shared.playHapticFeedback()
+        
+        // Deadline varsa bildirim zamanla
+        if newProject.deadline != nil {
+            notificationManager.scheduleDeadlineReminder(for: newProject)
+        }
     }
     
     func updateProject(_ project: Project, title: String, description: String, priority: Priority, deadline: Date?, duration: String, icon: String) {
@@ -84,6 +93,12 @@ class TodoViewModel: ObservableObject {
             projects[index].duration = duration
             projects[index].icon = icon
             playSoundIfEnabled { SoundManager.shared.playTaskAddSound() }
+            
+            // Deadline değiştiyse bildirimleri güncelle
+            notificationManager.cancelDeadlineReminders(for: project.id)
+            if let deadline = deadline {
+                notificationManager.scheduleDeadlineReminder(for: projects[index])
+            }
         }
     }
     
@@ -102,6 +117,9 @@ class TodoViewModel: ObservableObject {
     }
     
     func deleteProject(_ project: Project) {
+        // Bildirimleri iptal et
+        notificationManager.cancelDeadlineReminders(for: project.id)
+        
         projects.removeAll { $0.id == project.id }
         playSoundIfEnabled { SoundManager.shared.playTaskDeleteSound() }
     }
@@ -226,41 +244,6 @@ class TodoViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Dependencies (Bağımlılıklar)
-    
-    func addDependency(to project: Project, dependsOn: Project) {
-        if let index = projects.firstIndex(where: { $0.id == project.id }) {
-            if !projects[index].dependsOn.contains(dependsOn.id) {
-                projects[index].dependsOn.append(dependsOn.id)
-            }
-        }
-    }
-    
-    func removeDependency(from project: Project, dependencyId: UUID) {
-        if let index = projects.firstIndex(where: { $0.id == project.id }) {
-            projects[index].dependsOn.removeAll { $0 == dependencyId }
-        }
-    }
-    
-    // Bağımlılıklar tamamlanmış mı?
-    func areDependenciesCompleted(for project: Project) -> Bool {
-        for dependencyId in project.dependsOn {
-            if let dependency = projects.first(where: { $0.id == dependencyId }) {
-                if !dependency.isCompleted {
-                    return false
-                }
-            }
-        }
-        return true
-    }
-    
-    // Bağımlı projeleri getir
-    func getDependencies(for project: Project) -> [Project] {
-        return project.dependsOn.compactMap { id in
-            projects.first(where: { $0.id == id })
-        }
-    }
-    
     // MARK: - File Attachments (Dosya Eklentileri)
     
     func addAttachment(to project: Project, fileName: String, filePath: String, fileType: String) {
@@ -367,15 +350,36 @@ class TodoViewModel: ObservableObject {
     
     /// UserDefaults'a kaydet
     private func saveToUserDefaults() {
-        // Projects'i UserDefaults'a kaydet
+        // Hem standard hem de App Group UserDefaults'a kaydet
+        let standardDefaults = UserDefaults.standard
+        let appGroupDefaults = UserDefaults(suiteName: "group.todoapp.shared") ?? standardDefaults
+        
+        // Projects'i kaydet
         if let projectsData = try? JSONEncoder().encode(projects) {
-            UserDefaults.standard.set(projectsData, forKey: projectsKey)
+            standardDefaults.set(projectsData, forKey: projectsKey)
+            appGroupDefaults.set(projectsData, forKey: projectsKey)
+            print("💾 Ana App: \(projects.count) proje kaydedildi")
         }
         
-        // Routines'i UserDefaults'a kaydet
+        // Routines'i kaydet
         if let routinesData = try? JSONEncoder().encode(routines) {
-            UserDefaults.standard.set(routinesData, forKey: routinesKey)
+            standardDefaults.set(routinesData, forKey: routinesKey)
+            appGroupDefaults.set(routinesData, forKey: routinesKey)
+            standardDefaults.synchronize()
+            appGroupDefaults.synchronize()
+            print("💾 Ana App: \(routines.count) rutin kaydedildi (key: \(routinesKey))")
+            print("📊 Ana App: Tamamlanan: \(routines.filter { $0.isCompleted }.count)/\(routines.count)")
+            print("📦 Ana App: App Group'a da kaydedildi")
+            
+            // Widget'ı güncelle
+            reloadWidgets()
         }
+    }
+    
+    /// Widget'ları yeniden yükle
+    private func reloadWidgets() {
+        WidgetCenter.shared.reloadAllTimelines()
+        print("🔄 Widget'lar güncelleniyor...")
     }
     
     /// Verileri yükle (Dosya + UserDefaults)

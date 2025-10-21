@@ -576,13 +576,20 @@ struct ProjectDetailSheet: View {
     @State private var newTag = ""
     @State private var newSubtask = ""
     @State private var category: String
-    @State private var selectedTab = 0
+    @State private var selectedTab = 0  // Düzenle tab'ı varsayılan olarak açık
     @State private var recurrenceType: RecurrenceType
     @State private var recurrenceEndDate: Date
     @State private var hasRecurrenceEnd = false
-    @State private var selectedDependency: Project?
     @State private var showingFilePicker = false
-    @State private var showMarkdownHelp = false
+    
+    // Düzenleme için state'ler
+    @State private var editTitle: String
+    @State private var editDescription: String
+    @State private var editPriority: Priority
+    @State private var editDeadline: Date
+    @State private var editDuration: String
+    @State private var editIcon: String
+    @State private var hasEditDeadline: Bool
     
     // ViewModelden real-time project alıyoruz
     private var project: Project {
@@ -604,6 +611,15 @@ struct ProjectDetailSheet: View {
         _recurrenceType = State(initialValue: project.recurrenceType)
         _recurrenceEndDate = State(initialValue: project.recurrenceEndDate ?? Date())
         _hasRecurrenceEnd = State(initialValue: project.recurrenceEndDate != nil)
+        
+        // Düzenleme state'lerini başlat
+        _editTitle = State(initialValue: project.title)
+        _editDescription = State(initialValue: project.description)
+        _editPriority = State(initialValue: project.priority)
+        _editDeadline = State(initialValue: project.deadline ?? Date())
+        _editDuration = State(initialValue: project.duration)
+        _editIcon = State(initialValue: project.icon)
+        _hasEditDeadline = State(initialValue: project.deadline != nil)
     }
     
     var body: some View {
@@ -614,12 +630,25 @@ struct ProjectDetailSheet: View {
                 Text("Proje Detayları")
                     .font(.title)
                     .fontWeight(.bold)
+                
+                Spacer()
+                
+                // X Kapatma Butonu
+                Button(action: {
+                    isPresented = false
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Kapat")
             }
             
             // Tab Selection (2 rows of tabs)
             VStack(spacing: 8) {
                 Picker("", selection: $selectedTab) {
-                    Text("Alt Görevler").tag(0)
+                    Text("Düzenle").tag(0)
                     Text("Notlar").tag(1)
                     Text("Linkler").tag(2)
                     Text("Etiketler").tag(3)
@@ -629,7 +658,7 @@ struct ProjectDetailSheet: View {
                 Picker("", selection: $selectedTab) {
                     Text("Kategori").tag(4)
                     Text("Tekrar Eden").tag(5)
-                    Text("Bağımlılıklar").tag(6)
+                    Text("Alt Görevler").tag(6)
                     Text("Dosyalar").tag(7)
                 }
                 .pickerStyle(.segmented)
@@ -638,128 +667,78 @@ struct ProjectDetailSheet: View {
             
             // Tab Content
             TabView(selection: $selectedTab) {
-                // Tab 0: Subtasks
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Alt Görevler")
-                        .font(.headline)
-                    
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 8) {
-                            ForEach(project.subtasks) { subtask in
-                                HStack {
-                                    Button(action: {
-                                        viewModel.toggleSubtask(in: project, subtask: subtask)
-                                    }) {
-                                        Image(systemName: subtask.isCompleted ? "checkmark.square.fill" : "square")
-                                            .foregroundColor(subtask.isCompleted ? .green : .gray)
-                                    }
-                                    .buttonStyle(.plain)
-                                    
-                                    Text(subtask.title)
-                                        .strikethrough(subtask.isCompleted)
-                                    
-                                    Spacer()
-                                    
-                                    Button(action: {
-                                        viewModel.deleteSubtask(from: project, subtask: subtask)
-                                    }) {
-                                        Image(systemName: "trash")
-                                            .foregroundColor(.red)
-                                    }
-                                    .buttonStyle(.plain)
-                                }
-                                .padding(.vertical, 4)
-                            }
-                        }
-                    }
-                    
-                    Divider()
-                    
-                    HStack {
-                        TextField("Yeni alt görev ekle...", text: $newSubtask)
-                        Button("Ekle") {
-                            if !newSubtask.isEmpty {
-                                viewModel.addSubtask(to: project, title: newSubtask)
-                                newSubtask = ""
-                            }
-                        }
-                        .disabled(newSubtask.isEmpty)
-                    }
-                }
-                .padding()
-                .tag(0)
-                
-                // Tab 1: Notes (with Markdown Support)
+                // Tab 0: Düzenleme
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
-                        Text("Notlar")
-                            .font(.headline)
+                        Text("Proje Bilgilerini Düzenle")
+                            .font(.title)
+                            .fontWeight(.bold)
                         
                         Spacer()
                         
                         Button(action: {
-                            showMarkdownHelp.toggle()
+                            isPresented = false
                         }) {
-                            Image(systemName: "questionmark.circle")
-                                .foregroundColor(.blue)
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.secondary)
                         }
                         .buttonStyle(.plain)
-                        .help("Markdown yardımını göster")
+                        .help("Kapat")
                     }
                     
-                    // Markdown Help
-                    if showMarkdownHelp {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("📝 Markdown Desteği:")
-                                .font(.caption)
-                                .fontWeight(.semibold)
-                            Text("**kalın**, *italik*, `kod`, [link](url)")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Text("# Başlık, - Liste, > Alıntı")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(8)
-                        .background(Color.blue.opacity(0.1))
-                        .cornerRadius(6)
-                    }
-                    
-                    // Editor ve Preview yan yana
-                    HStack(spacing: 12) {
-                        // Editor
-                        VStack(alignment: .leading) {
-                            Text("Düzenle")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            TextEditor(text: $notes)
-                                .font(.body)
-                                .frame(maxHeight: .infinity)
-                                .border(Color.gray.opacity(0.3), width: 1)
+                    Form {
+                        TextField("Proje Başlığı", text: $editTitle)
+                        
+                        TextField("Açıklama", text: $editDescription)
+                        
+                        EmojiPicker(selectedEmoji: $editIcon)
+                            .padding(.vertical, 8)
+                        
+                        Picker("Öncelik", selection: $editPriority) {
+                            ForEach(Priority.allCases, id: \.self) { priority in
+                                Text(priority.rawValue).tag(priority)
+                            }
                         }
                         
-                        // Preview
-                        VStack(alignment: .leading) {
-                            Text("Önizleme")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            ScrollView {
-                                if #available(macOS 12.0, *) {
-                                    Text(try! AttributedString(markdown: notes.isEmpty ? "*Markdown önizlemesi burada görünecek*" : notes))
-                                        .textSelection(.enabled)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(8)
-                                } else {
-                                    Text(notes.isEmpty ? "Markdown önizlemesi burada görünecek" : notes)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(8)
-                                }
-                            }
-                            .frame(maxHeight: .infinity)
-                            .background(Color.gray.opacity(0.05))
-                            .border(Color.gray.opacity(0.3), width: 1)
+                        Toggle("Son Tarih Ekle", isOn: $hasEditDeadline)
+                        
+                        if hasEditDeadline {
+                            DatePicker("Son Tarih", selection: $editDeadline, displayedComponents: [.date, .hourAndMinute])
+                                .environment(\.locale, Locale(identifier: "tr_TR"))
                         }
+                        
+                        TextField("Süre (örn: 2 hafta)", text: $editDuration)
                     }
+                    
+                    Spacer()
+                    
+                    Button("Değişiklikleri Kaydet") {
+                        viewModel.updateProject(
+                            project,
+                            title: editTitle,
+                            description: editDescription,
+                            priority: editPriority,
+                            deadline: hasEditDeadline ? editDeadline : nil,
+                            duration: editDuration,
+                            icon: editIcon
+                        )
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(editTitle.isEmpty)
+                }
+                .padding()
+                .tag(0)
+                
+                // Tab 1: Notes (Direct Editor)
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Notlar")
+                        .font(.headline)
+                    
+                    TextEditor(text: $notes)
+                        .font(.body)
+                        .frame(maxHeight: .infinity)
+                        .border(Color.gray.opacity(0.3), width: 1)
                     
                     Button("Notları Kaydet") {
                         viewModel.updateNotes(for: project, notes: notes)
@@ -962,91 +941,53 @@ struct ProjectDetailSheet: View {
                 .padding()
                 .tag(5)
                 
-                // Tab 6: Dependencies
+                // Tab 6: Alt Görevler
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Bağımlılıklar")
+                    Text("Alt Görevler")
                         .font(.headline)
                     
-                    if !project.dependsOn.isEmpty {
-                        Text("Bu görev şunlara bağlı:")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 8) {
-                                ForEach(viewModel.getDependencies(for: project)) { dependency in
-                                    HStack {
-                                        Text(dependency.icon)
-                                        Text(dependency.title)
-                                            .font(.subheadline)
-                                        
-                                        if dependency.isCompleted {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.green)
-                                        } else {
-                                            Image(systemName: "circle")
-                                                .foregroundColor(.orange)
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        Button(action: {
-                                            viewModel.removeDependency(from: project, dependencyId: dependency.id)
-                                        }) {
-                                            Image(systemName: "trash")
-                                                .foregroundColor(.red)
-                                        }
-                                        .buttonStyle(.plain)
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ForEach(project.subtasks) { subtask in
+                                HStack {
+                                    Button(action: {
+                                        viewModel.toggleSubtask(in: project, subtask: subtask)
+                                    }) {
+                                        Image(systemName: subtask.isCompleted ? "checkmark.square.fill" : "square")
+                                            .foregroundColor(subtask.isCompleted ? .green : .gray)
                                     }
-                                    .padding(.vertical, 4)
+                                    .buttonStyle(.plain)
+                                    
+                                    Text(subtask.title)
+                                        .strikethrough(subtask.isCompleted)
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        viewModel.deleteSubtask(from: project, subtask: subtask)
+                                    }) {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.red)
+                                    }
+                                    .buttonStyle(.plain)
                                 }
+                                .padding(.vertical, 4)
                             }
                         }
-                        
-                        Divider()
                     }
-                    
-                    Text("Yeni Bağımlılık Ekle:")
-                        .font(.subheadline)
-                    
-                    Picker("Bağlı Görev", selection: $selectedDependency) {
-                        Text("Seç").tag(nil as Project?)
-                        ForEach(viewModel.projects.filter { $0.id != project.id }) { otherProject in
-                            HStack {
-                                Text(otherProject.icon)
-                                Text(otherProject.title)
-                            }.tag(otherProject as Project?)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    
-                    Button("Ekle") {
-                        if let selected = selectedDependency {
-                            viewModel.addDependency(to: project, dependsOn: selected)
-                            selectedDependency = nil
-                        }
-                    }
-                    .disabled(selectedDependency == nil)
                     
                     Divider()
                     
-                    HStack(spacing: 8) {
-                        if viewModel.areDependenciesCompleted(for: project) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
-                            Text("Tüm bağımlılıklar tamamlandı!")
-                                .font(.caption)
-                                .foregroundColor(.green)
-                        } else {
-                            Image(systemName: "exclamationmark.circle.fill")
-                                .foregroundColor(.orange)
-                            Text("Bazı bağımlılıklar henüz tamamlanmadı")
-                                .font(.caption)
-                                .foregroundColor(.orange)
+                    HStack {
+                        TextField("Yeni alt görev ekle...", text: $newSubtask)
+                        Button("Ekle") {
+                            if !newSubtask.isEmpty {
+                                viewModel.addSubtask(to: project, title: newSubtask)
+                                newSubtask = ""
+                            }
                         }
+                        .disabled(newSubtask.isEmpty)
                     }
-                    
-                    Spacer()
                 }
                 .padding()
                 .tag(6)

@@ -84,7 +84,7 @@ struct StreakData: Codable {
 
 // Başarı Rozeti
 struct Achievement: Identifiable, Codable {
-    let id = UUID()
+    var id = UUID()
     let title: String
     let description: String
     let icon: String
@@ -365,18 +365,14 @@ class StatisticsManager: ObservableObject {
     // MARK: - Hedef vs Gerçekleşen
     
     func getGoalComparison(from projects: [Project], routines: [Routine]) -> (completed: Int, total: Int, percentage: Double) {
-        // Tamamlanan görevler
-        let completedProjects = projects.filter { $0.isCompleted }.count
-        let completedRoutines = routines.filter { $0.isCompletedToday }.count
-        let totalCompleted = completedProjects + completedRoutines
-        
-        // Toplam görevler
-        let totalTasks = projects.count + routines.count
+        // SADECE PROJELER - Rutinler dahil edilmez
+        let completed = projects.filter { $0.isCompleted }.count
+        let total = projects.count
         
         // Yüzde hesapla
-        let percentage = totalTasks > 0 ? Double(totalCompleted) / Double(totalTasks) * 100 : 0
+        let percentage = total > 0 ? Double(completed) / Double(total) * 100 : 0
         
-        return (totalCompleted, totalTasks, percentage)
+        return (completed, total, percentage)
     }
     
     // Öncelik dağılımı
@@ -422,14 +418,9 @@ class StatisticsManager: ObservableObject {
     // MARK: - Toplam Sayaçlar
     
     func getTotalCounts(from projects: [Project], routines: [Routine]) -> (total: Int, completed: Int, active: Int) {
-        let totalProjects = projects.count
-        let totalRoutines = routines.count
-        let total = totalProjects + totalRoutines
-        
-        let completedProjects = projects.filter { $0.isCompleted }.count
-        let completedRoutines = routines.filter { $0.isCompletedToday }.count
-        let completed = completedProjects + completedRoutines
-        
+        // SADECE PROJELER - Rutinler dahil edilmez
+        let total = projects.count
+        let completed = projects.filter { $0.isCompleted }.count
         let active = total - completed
         
         return (total, completed, active)

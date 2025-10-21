@@ -9,11 +9,11 @@
 
 | Bilgi | Detay |
 |-------|-------|
-| **Versiyon** | 1.0.0 |
-| **Platform** | macOS 12.0+ |
+| **Versiyon** | 1.0.2 |
+| **Platform** | macOS 14.0+ |
 | **Teknoloji** | Swift + SwiftUI + Charts |
 | **Durum** | 🟢 Çalışır Durumda |
-| **Son Güncelleme** | 21 Ekim 2025 |
+| **Son Güncelleme** | 22 Ekim 2025 |
 | **Toplam Planlanan Özellik** | 80+ özellik |
 | **Geliştirme Aşaması** | 🚀 Aktif Geliştirme |
 
@@ -65,7 +65,64 @@
 
 ---
 
-## 🎉 SON GÜNCELLEME: v1.0.0 - GELİŞMİŞ İSTATİSTİK VE TEMA SİSTEMİ!
+## 🎉 SON GÜNCELLEME: v1.0.2 - TEMİZLİK VE BUG FİXLER!
+
+### 🔧 v1.0.2 - Widget Kaldırma ve UI İyileştirmeleri (22 Ekim 2025)
+
+#### ❌ Widget Sistemi Kaldırıldı
+- ❌ **TodoWidget kaldırıldı** - Widget sorunları nedeniyle tamamen kaldırıldı
+- ❌ **DebugView kaldırıldı** - Artık ihtiyaç duyulmuyor
+- ✅ **Proje temizleme** - Widget target ve referanslar temizlendi
+- ✅ **Deployment target** - macOS 14.0+ (Swift Charts SectorMark için)
+
+#### 🎨 UI İyileştirmeleri
+- ✅ **Düzenle sekmesi yeniden tasarlandı** - Form içinde daha düzenli
+- ✅ **Tek X butonu** - Her sekmenin içindeki fazla X butonları kaldırıldı
+- ✅ **Tutarlı tasarım** - Tüm sekmeler aynı stilde
+- ✅ **Markdown önizleme kaldırıldı** - Not alımı daha basit ve direkt
+
+#### 📊 İstatistik İyileştirmeleri
+- ✅ **Rutinler kaldırıldı** - İstatistiklerden rutinler çıkarıldı
+- ✅ **Başarı rozetleri** - Sadece kalıcı projeler sayılıyor
+- ✅ **Toplam görev sayaçları** - Sadece projeler dahil
+- ✅ **Tamamlama oranı** - Rutinler hariç, sadece projeler
+
+#### 🐛 Düzeltilen Hatalar
+- ✅ Widget build hataları tamamen kaldırıldı
+- ✅ Deployment target uyumsuzlukları düzeltildi
+- ✅ Swift Charts uyumluluğu sağlandı
+- ✅ Proje dosyası temizlendi
+
+#### 📁 Silinen Dosyalar
+- `TodoWidget/` klasörü tamamen kaldırıldı
+- `DebugView.swift` silindi
+- Widget scheme dosyaları temizlendi
+
+---
+
+## 🎉 v1.0.1 - WIDGET DESTEĞİ EKLENDI (İPTAL EDİLDİ)
+
+### 🔧 v1.0.1 - Widget Extension ve Debug İyileştirmeleri (21 Ekim 2025)
+
+#### 📱 Widget Sistemi (YENİ!)
+- ✅ **TodoWidgetExtension** - macOS widget desteği eklendi
+- ✅ **RoutineWidgetView** - Günlük rutinler için widget görünümü
+- ✅ **İlerleme Göstergesi** - Dairesel progress bar ile tamamlanma yüzdesi
+- ✅ **Rutin Listesi** - Widget'ta son 7 rutin görüntüleme
+- ✅ **Motivasyon Mesajları** - Yüzdeye göre dinamik mesajlar
+- ⚠️ **BİLİNEN SORUN:** Widget rutinleri göstermiyor (düzeltilecek)
+
+#### 🐛 Debug İyileştirmeleri
+- ✅ **Kapatılabilir Debug Ekranı** - X butonu ile kapatma özelliği
+- ✅ **UserDefaults Kontrolü** - Standard ve App Group kontrolü
+- ✅ **Manuel Kaydet** - Debug ekranından manuel veri kaydetme
+- ✅ **Widget Güncelle** - Debug ekranından widget yenileme
+
+#### 📁 Yeni Dosyalar
+- `TodoWidget/TodoWidget.swift` - Widget ana dosyası
+- `TodoWidget/RoutineModel.swift` - Widget için basitleştirilmiş model
+- `TodoWidget/Info.plist` - Widget yapılandırması
+- `to do app/DebugView.swift` - Debug paneli
 
 ### 🚀 v1.0.0 - Gelişmiş İstatistikler, Başarı Rozetleri ve Sistem Teması (21 Ekim 2025)
 

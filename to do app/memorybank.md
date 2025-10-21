@@ -9,9 +9,9 @@
 
 | Bilgi | Detay |
 |-------|-------|
-| **Versiyon** | 1.0.0 |
+| **Versiyon** | 1.0.1 |
 | **Platform** | macOS 12.0+ |
-| **Teknoloji** | Swift + SwiftUI + Charts |
+| **Teknoloji** | Swift + SwiftUI + Charts + WidgetKit |
 | **Durum** | 🟢 Çalışır Durumda |
 | **Son Güncelleme** | 21 Ekim 2025 |
 | **Toplam Planlanan Özellik** | 80+ özellik |
@@ -65,7 +65,29 @@
 
 ---
 
-## 🎉 SON GÜNCELLEME: v1.0.0 - GELİŞMİŞ İSTATİSTİK VE TEMA SİSTEMİ!
+## 🎉 SON GÜNCELLEME: v1.0.1 - WIDGET DESTEĞİ EKLENDI!
+
+### 🔧 v1.0.1 - Widget Extension ve Debug İyileştirmeleri (21 Ekim 2025)
+
+#### 📱 Widget Sistemi (YENİ!)
+- ✅ **TodoWidgetExtension** - macOS widget desteği eklendi
+- ✅ **RoutineWidgetView** - Günlük rutinler için widget görünümü
+- ✅ **İlerleme Göstergesi** - Dairesel progress bar ile tamamlanma yüzdesi
+- ✅ **Rutin Listesi** - Widget'ta son 7 rutin görüntüleme
+- ✅ **Motivasyon Mesajları** - Yüzdeye göre dinamik mesajlar
+- ⚠️ **BİLİNEN SORUN:** Widget rutinleri göstermiyor (düzeltilecek)
+
+#### 🐛 Debug İyileştirmeleri
+- ✅ **Kapatılabilir Debug Ekranı** - X butonu ile kapatma özelliği
+- ✅ **UserDefaults Kontrolü** - Standard ve App Group kontrolü
+- ✅ **Manuel Kaydet** - Debug ekranından manuel veri kaydetme
+- ✅ **Widget Güncelle** - Debug ekranından widget yenileme
+
+#### 📁 Yeni Dosyalar
+- `TodoWidget/TodoWidget.swift` - Widget ana dosyası
+- `TodoWidget/RoutineModel.swift` - Widget için basitleştirilmiş model
+- `TodoWidget/Info.plist` - Widget yapılandırması
+- `to do app/DebugView.swift` - Debug paneli
 
 ### 🚀 v1.0.0 - Gelişmiş İstatistikler, Başarı Rozetleri ve Sistem Teması (21 Ekim 2025)
 

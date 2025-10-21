@@ -576,13 +576,21 @@ struct ProjectDetailSheet: View {
     @State private var newTag = ""
     @State private var newSubtask = ""
     @State private var category: String
-    @State private var selectedTab = 0
+    @State private var selectedTab = 0  // Düzenle tab'ı varsayılan olarak açık
     @State private var recurrenceType: RecurrenceType
     @State private var recurrenceEndDate: Date
     @State private var hasRecurrenceEnd = false
-    @State private var selectedDependency: Project?
     @State private var showingFilePicker = false
     @State private var showMarkdownHelp = false
+    
+    // Düzenleme için state'ler
+    @State private var editTitle: String
+    @State private var editDescription: String
+    @State private var editPriority: Priority
+    @State private var editDeadline: Date
+    @State private var editDuration: String
+    @State private var editIcon: String
+    @State private var hasEditDeadline: Bool
     
     // ViewModelden real-time project alıyoruz
     private var project: Project {
@@ -604,6 +612,15 @@ struct ProjectDetailSheet: View {
         _recurrenceType = State(initialValue: project.recurrenceType)
         _recurrenceEndDate = State(initialValue: project.recurrenceEndDate ?? Date())
         _hasRecurrenceEnd = State(initialValue: project.recurrenceEndDate != nil)
+        
+        // Düzenleme state'lerini başlat
+        _editTitle = State(initialValue: project.title)
+        _editDescription = State(initialValue: project.description)
+        _editPriority = State(initialValue: project.priority)
+        _editDeadline = State(initialValue: project.deadline ?? Date())
+        _editDuration = State(initialValue: project.duration)
+        _editIcon = State(initialValue: project.icon)
+        _hasEditDeadline = State(initialValue: project.deadline != nil)
     }
     
     var body: some View {
@@ -619,7 +636,7 @@ struct ProjectDetailSheet: View {
             // Tab Selection (2 rows of tabs)
             VStack(spacing: 8) {
                 Picker("", selection: $selectedTab) {
-                    Text("Alt Görevler").tag(0)
+                    Text("Düzenle").tag(0)
                     Text("Notlar").tag(1)
                     Text("Linkler").tag(2)
                     Text("Etiketler").tag(3)
@@ -629,7 +646,7 @@ struct ProjectDetailSheet: View {
                 Picker("", selection: $selectedTab) {
                     Text("Kategori").tag(4)
                     Text("Tekrar Eden").tag(5)
-                    Text("Bağımlılıklar").tag(6)
+                    Text("Alt Görevler").tag(6)
                     Text("Dosyalar").tag(7)
                 }
                 .pickerStyle(.segmented)
@@ -638,9 +655,9 @@ struct ProjectDetailSheet: View {
             
             // Tab Content
             TabView(selection: $selectedTab) {
-                // Tab 0: Subtasks
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Alt Görevler")
+                // Tab 0: Düzenleme
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Proje Bilgilerini Düzenle")
                         .font(.headline)
                     
                     ScrollView {
@@ -687,7 +704,7 @@ struct ProjectDetailSheet: View {
                     }
                 }
                 .padding()
-                .tag(0)
+                .tag(6)
                 
                 // Tab 1: Notes (with Markdown Support)
                 VStack(alignment: .leading, spacing: 12) {
@@ -962,94 +979,53 @@ struct ProjectDetailSheet: View {
                 .padding()
                 .tag(5)
                 
-                // Tab 6: Dependencies
+                // Tab 6: Alt Görevler
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Bağımlılıklar")
+                    Text("Alt Görevler")
                         .font(.headline)
                     
-                    if !project.dependsOn.isEmpty {
-                        Text("Bu görev şunlara bağlı:")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                    Form {
+                        TextField("Proje Başlığı", text: $editTitle)
                         
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 8) {
-                                ForEach(viewModel.getDependencies(for: project)) { dependency in
-                                    HStack {
-                                        Text(dependency.icon)
-                                        Text(dependency.title)
-                                            .font(.subheadline)
-                                        
-                                        if dependency.isCompleted {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.green)
-                                        } else {
-                                            Image(systemName: "circle")
-                                                .foregroundColor(.orange)
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        Button(action: {
-                                            viewModel.removeDependency(from: project, dependencyId: dependency.id)
-                                        }) {
-                                            Image(systemName: "trash")
-                                                .foregroundColor(.red)
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                    .padding(.vertical, 4)
-                                }
+                        TextField("Açıklama", text: $editDescription)
+                        
+                        EmojiPicker(selectedEmoji: $editIcon)
+                            .padding(.vertical, 8)
+                        
+                        Picker("Öncelik", selection: $editPriority) {
+                            ForEach(Priority.allCases, id: \.self) { priority in
+                                Text(priority.rawValue).tag(priority)
                             }
                         }
                         
-                        Divider()
-                    }
-                    
-                    Text("Yeni Bağımlılık Ekle:")
-                        .font(.subheadline)
-                    
-                    Picker("Bağlı Görev", selection: $selectedDependency) {
-                        Text("Seç").tag(nil as Project?)
-                        ForEach(viewModel.projects.filter { $0.id != project.id }) { otherProject in
-                            HStack {
-                                Text(otherProject.icon)
-                                Text(otherProject.title)
-                            }.tag(otherProject as Project?)
+                        Toggle("Son Tarih Ekle", isOn: $hasEditDeadline)
+                        
+                        if hasEditDeadline {
+                            DatePicker("Son Tarih", selection: $editDeadline, displayedComponents: [.date, .hourAndMinute])
+                                .environment(\.locale, Locale(identifier: "tr_TR"))
                         }
-                    }
-                    .pickerStyle(.menu)
-                    
-                    Button("Ekle") {
-                        if let selected = selectedDependency {
-                            viewModel.addDependency(to: project, dependsOn: selected)
-                            selectedDependency = nil
-                        }
-                    }
-                    .disabled(selectedDependency == nil)
-                    
-                    Divider()
-                    
-                    HStack(spacing: 8) {
-                        if viewModel.areDependenciesCompleted(for: project) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
-                            Text("Tüm bağımlılıklar tamamlandı!")
-                                .font(.caption)
-                                .foregroundColor(.green)
-                        } else {
-                            Image(systemName: "exclamationmark.circle.fill")
-                                .foregroundColor(.orange)
-                            Text("Bazı bağımlılıklar henüz tamamlanmadı")
-                                .font(.caption)
-                                .foregroundColor(.orange)
-                        }
+                        
+                        TextField("Süre (örn: 2 hafta)", text: $editDuration)
                     }
                     
                     Spacer()
+                    
+                    Button("Değişiklikleri Kaydet") {
+                        viewModel.updateProject(
+                            project,
+                            title: editTitle,
+                            description: editDescription,
+                            priority: editPriority,
+                            deadline: hasEditDeadline ? editDeadline : nil,
+                            duration: editDuration,
+                            icon: editIcon
+                        )
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(editTitle.isEmpty)
                 }
                 .padding()
-                .tag(6)
+                .tag(0)
                 
                 // Tab 7: File Attachments
                 VStack(alignment: .leading, spacing: 12) {

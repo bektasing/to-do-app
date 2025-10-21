@@ -11,6 +11,7 @@ struct ContentView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var showingSettings = false
     @State private var showingStatistics = false
+    @State private var showingDebug = false
     
     var body: some View {
         HStack(spacing: 0) {
@@ -29,6 +30,17 @@ struct ContentView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 HStack(spacing: 12) {
+                    // Debug butonu
+                    Button(action: {
+                        showingDebug = true
+                    }) {
+                        Image(systemName: "ant.fill")
+                            .font(.title2)
+                            .foregroundColor(.orange)
+                    }
+                    .buttonStyle(.plain)
+                    .help("Debug")
+                    
                     // İstatistik butonu
                     Button(action: {
                         showingStatistics = true
@@ -50,6 +62,9 @@ struct ContentView: View {
                     .help("Ayarlar")
                 }
             }
+        }
+        .sheet(isPresented: $showingDebug) {
+            DebugView(viewModel: viewModel)
         }
         .sheet(isPresented: $showingSettings) {
             SettingsView(viewModel: viewModel)

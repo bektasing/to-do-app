@@ -73,17 +73,16 @@ struct Project: Identifiable, Codable, Hashable {
     var tags: [String] = [] // Etiketler (#iş, #kişisel)
     var category: String? = nil // Kategori (opsiyonel)
     
-    // 🆕 İLERİ SEVİYE: Tekrar Eden Görevler & Bağımlılıklar
+    // 🆕 İLERİ SEVİYE: Tekrar Eden Görevler & Dosya Eklentileri
     var recurrenceType: RecurrenceType = .none // Tekrar türü
     var lastRecurredDate: Date? = nil // Son tekrar tarihi
     var recurrenceEndDate: Date? = nil // Tekrar bitiş tarihi
-    var dependsOn: [UUID] = [] // Bağımlı olduğu görev ID'leri
     var attachments: [FileAttachment] = [] // Dosya eklentileri
     
     var deadlineString: String {
         guard let deadline = deadline else { return "" }
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
         return formatter.string(from: deadline)
     }
     

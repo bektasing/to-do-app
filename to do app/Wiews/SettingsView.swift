@@ -102,28 +102,99 @@ struct SettingsView: View {
                     
                     // Notifications Section
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Bildirimler")
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                        
                         HStack {
-                            Image(systemName: "bell")
+                            Image(systemName: "bell.fill")
                                 .foregroundColor(.orange)
-                                .frame(width: 20)
-                            Text("Günlük Hatırlatıcılar")
-                            Spacer()
-                            Text("Açık")
-                                .foregroundColor(.secondary)
+                            Text("Bildirimler")
+                                .font(.headline)
+                                .foregroundColor(.primary)
                         }
                         
+                        // Ana bildirim toggle
                         HStack {
-                            Image(systemName: "clock")
-                                .foregroundColor(.purple)
+                            Image(systemName: "bell.badge")
+                                .foregroundColor(.orange)
                                 .frame(width: 20)
-                            Text("Rutin Hatırlatıcıları")
+                            Text("Bildirimleri Etkinleştir")
                             Spacer()
-                            Text("Açık")
-                                .foregroundColor(.secondary)
+                            Toggle("", isOn: Binding(
+                                get: { viewModel.notificationManager.notificationsEnabled },
+                                set: { viewModel.notificationManager.notificationsEnabled = $0 }
+                            ))
+                                .toggleStyle(.switch)
+                        }
+                        
+                        Divider()
+                        
+                        // Sabah raporu
+                        HStack {
+                            Image(systemName: "sunrise.fill")
+                                .foregroundColor(.yellow)
+                                .frame(width: 20)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Sabah Günlük Özet")
+                                    .font(.subheadline)
+                                DatePicker("", selection: Binding(
+                                    get: { viewModel.notificationManager.morningReportTime },
+                                    set: { viewModel.notificationManager.morningReportTime = $0 }
+                                ), displayedComponents: .hourAndMinute)
+                                    .labelsHidden()
+                                    .disabled(!viewModel.notificationManager.morningReportEnabled)
+                            }
+                            Spacer()
+                            Toggle("", isOn: Binding(
+                                get: { viewModel.notificationManager.morningReportEnabled },
+                                set: { viewModel.notificationManager.morningReportEnabled = $0 }
+                            ))
+                                .toggleStyle(.switch)
+                                .disabled(!viewModel.notificationManager.notificationsEnabled)
+                        }
+                        
+                        // Akşam raporu
+                        HStack {
+                            Image(systemName: "moon.fill")
+                                .foregroundColor(.indigo)
+                                .frame(width: 20)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Akşam Tamamlanmayanlar")
+                                    .font(.subheadline)
+                                DatePicker("", selection: Binding(
+                                    get: { viewModel.notificationManager.eveningReportTime },
+                                    set: { viewModel.notificationManager.eveningReportTime = $0 }
+                                ), displayedComponents: .hourAndMinute)
+                                    .labelsHidden()
+                                    .disabled(!viewModel.notificationManager.eveningReportEnabled)
+                            }
+                            Spacer()
+                            Toggle("", isOn: Binding(
+                                get: { viewModel.notificationManager.eveningReportEnabled },
+                                set: { viewModel.notificationManager.eveningReportEnabled = $0 }
+                            ))
+                                .toggleStyle(.switch)
+                                .disabled(!viewModel.notificationManager.notificationsEnabled)
+                        }
+                        
+                        Divider()
+                        
+                        // Deadline uyarıları
+                        HStack {
+                            Image(systemName: "alarm")
+                                .foregroundColor(.red)
+                                .frame(width: 20)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Son Tarih Uyarıları")
+                                    .font(.subheadline)
+                                Text("1 gün, 3 saat ve 1 saat önce")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            Toggle("", isOn: Binding(
+                                get: { viewModel.notificationManager.deadlineRemindersEnabled },
+                                set: { viewModel.notificationManager.deadlineRemindersEnabled = $0 }
+                            ))
+                                .toggleStyle(.switch)
+                                .disabled(!viewModel.notificationManager.notificationsEnabled)
                         }
                     }
                     .padding()

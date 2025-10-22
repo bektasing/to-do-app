@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import WidgetKit
 
 struct DebugView: View {
     @ObservedObject var viewModel: TodoViewModel
@@ -72,22 +71,6 @@ struct DebugView: View {
                         Text("Standard: Veri yok")
                     }
                 }
-                
-                // App Group UserDefaults
-                if let appGroupDefaults = UserDefaults(suiteName: "group.todoapp.shared"),
-                   let data = appGroupDefaults.data(forKey: "SavedRoutines") {
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                        Text("App Group: \(data.count) bytes")
-                    }
-                } else {
-                    HStack {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.red)
-                        Text("App Group: Veri yok")
-                    }
-                }
             }
             
             Divider()
@@ -107,21 +90,6 @@ struct DebugView: View {
                 .cornerRadius(8)
             }
             
-            // Widget'ı Güncelle Butonu
-            Button(action: {
-                reloadWidget()
-            }) {
-                HStack {
-                    Image(systemName: "arrow.clockwise")
-                    Text("Widget'ı Güncelle")
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-            }
-            
             Spacer()
         }
         .padding()
@@ -134,17 +102,7 @@ struct DebugView: View {
             UserDefaults.standard.set(routinesData, forKey: "SavedRoutines")
             UserDefaults.standard.synchronize()
             
-            if let appGroupDefaults = UserDefaults(suiteName: "group.todoapp.shared") {
-                appGroupDefaults.set(routinesData, forKey: "SavedRoutines")
-                appGroupDefaults.synchronize()
-            }
-            
             print("✅ Manuel kayıt başarılı: \(viewModel.routines.count) rutin")
         }
-    }
-    
-    private func reloadWidget() {
-        WidgetCenter.shared.reloadAllTimelines()
-        print("🔄 Widget güncellendi")
     }
 }

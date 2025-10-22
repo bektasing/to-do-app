@@ -7,7 +7,6 @@
 import Foundation
 import SwiftUI
 import Combine
-import WidgetKit
 
 // Notification names
 extension Notification.Name {
@@ -350,36 +349,21 @@ class TodoViewModel: ObservableObject {
     
     /// UserDefaults'a kaydet
     private func saveToUserDefaults() {
-        // Hem standard hem de App Group UserDefaults'a kaydet
-        let standardDefaults = UserDefaults.standard
-        let appGroupDefaults = UserDefaults(suiteName: "group.todoapp.shared") ?? standardDefaults
+        let defaults = UserDefaults.standard
         
         // Projects'i kaydet
         if let projectsData = try? JSONEncoder().encode(projects) {
-            standardDefaults.set(projectsData, forKey: projectsKey)
-            appGroupDefaults.set(projectsData, forKey: projectsKey)
+            defaults.set(projectsData, forKey: projectsKey)
             print("💾 Ana App: \(projects.count) proje kaydedildi")
         }
         
         // Routines'i kaydet
         if let routinesData = try? JSONEncoder().encode(routines) {
-            standardDefaults.set(routinesData, forKey: routinesKey)
-            appGroupDefaults.set(routinesData, forKey: routinesKey)
-            standardDefaults.synchronize()
-            appGroupDefaults.synchronize()
+            defaults.set(routinesData, forKey: routinesKey)
+            defaults.synchronize()
             print("💾 Ana App: \(routines.count) rutin kaydedildi (key: \(routinesKey))")
             print("📊 Ana App: Tamamlanan: \(routines.filter { $0.isCompleted }.count)/\(routines.count)")
-            print("📦 Ana App: App Group'a da kaydedildi")
-            
-            // Widget'ı güncelle
-            reloadWidgets()
         }
-    }
-    
-    /// Widget'ları yeniden yükle
-    private func reloadWidgets() {
-        WidgetCenter.shared.reloadAllTimelines()
-        print("🔄 Widget'lar güncelleniyor...")
     }
     
     /// Verileri yükle (Dosya + UserDefaults)

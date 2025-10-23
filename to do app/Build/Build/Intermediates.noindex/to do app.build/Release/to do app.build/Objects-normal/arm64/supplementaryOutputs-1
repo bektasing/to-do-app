@@ -1,0 +1,12 @@
+{
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/DataManager.swift" : {
+    "abi-baseline-json" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_app.abi.json",
+    "const-values" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary.swiftconstvalues",
+    "dependencies" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary.d",
+    "diagnostics" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary.dia",
+    "objc-header" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_app-Swift.h",
+    "swiftdoc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_app.swiftdoc",
+    "swiftmodule" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_app.swiftmodule",
+    "swiftsourceinfo" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_app.swiftsourceinfo"
+  }
+}

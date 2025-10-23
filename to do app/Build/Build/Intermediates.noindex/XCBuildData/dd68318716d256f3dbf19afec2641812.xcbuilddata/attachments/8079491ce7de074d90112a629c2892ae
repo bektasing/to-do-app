@@ -1,0 +1,101 @@
+{
+  "" : {
+    "const-values" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary.swiftconstvalues",
+    "dependencies" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary.d",
+    "diagnostics" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary.dia",
+    "emit-module-dependencies" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary-emit-module.dia",
+    "pch" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to do app-primary.swiftdeps"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/ContentView.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ContentView.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/DataManager.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/DataManager.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/DataManager.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/DataManager.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/LocalizationManager.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/LocalizationManager.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/LocalizationManager.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/LocalizationManager.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/NotificationManager.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/NotificationManager.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/NotificationManager.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/NotificationManager.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/Project.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/Project.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/Project.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/Project.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/Routine.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/Routine.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/Routine.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/Routine.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/SoundManager.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/SoundManager.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/SoundManager.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/SoundManager.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/StatisticsManager.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsManager.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsManager.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsManager.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Models/ThemeManager.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/ThemeManager.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ThemeManager.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ThemeManager.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/ViewModels/TodoViewModel.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/TodoViewModel.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/TodoViewModel.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/TodoViewModel.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Wiews/ConfettiView.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/ConfettiView.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ConfettiView.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ConfettiView.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Wiews/ProjectsPanel.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/ProjectsPanel.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ProjectsPanel.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/ProjectsPanel.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Wiews/RoutinesPanel.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/RoutinesPanel.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/RoutinesPanel.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/RoutinesPanel.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Wiews/SettingsView.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/SettingsView.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Wiews/StatisticsView.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsView.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsView.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsView.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/Wiews/StatisticsViewExtensions.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsViewExtensions.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsViewExtensions.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/StatisticsViewExtensions.o"
+  },
+  "/Users/macbookair/Documents/macapp/to do app/to do app/to_do_appApp.swift" : {
+    "index-unit-output-path" : "/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_appApp.o",
+    "llvm-bc" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_appApp.bc",
+    "object" : "/Users/macbookair/Documents/macapp/to do app/Build/Build/Intermediates.noindex/to do app.build/Release/to do app.build/Objects-normal/arm64/to_do_appApp.o"
+  }
+}

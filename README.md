@@ -13,7 +13,7 @@ Uygulamayı sorunsuz bir şekilde çalıştırmak için aşağıdaki adımları 
 2. Uygulamaya çift tıklamak yerine **sağ tıklayın** (veya klavyeden `Control` tuşuna basılı tutarak tıklayın) ve **Aç (Open)** seçeneğini seçin.
 3. Ekrana gelen uyarı penceresinde bu kez **Aç** butonu belirecektir. Buna tıkladığınızda uygulama açılır. (Bu işlemi sadece ilk açılışta bir kez yapmanız yeterlidir).
 
-##(Eğer Yöntem 1 Çalışmazsa) Yöntem 2: Terminal ile Güvenlik Engelini Kaldırma
+### Yöntem 2: Terminal ile Güvenlik Engelini Kaldırma (Eğer Yöntem 1 Çalışmazsa)
 Eğer macOS hâlâ uygulamanın açılmasına izin vermiyorsa, terminal üzerinden karantina etiketini temizleyebilirsiniz:
 
 1. **Terminal** uygulamasını açın.
